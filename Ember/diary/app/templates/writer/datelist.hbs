@@ -1,0 +1,11 @@
+{{page-title "Datelist"}}
+<div class="date-list">
+  <Header @heading={{"Date List"}}/>
+    <div class="dates">
+           
+           {{#each this.data.searchList as |data|}}
+                <LinkTo @route="writer.view" @model={{data.date}}><DateContent @monthyear={{data.monthYear}} @date={{data.day}} @text={{data.text}}/></LinkTo>
+           {{/each}}
+    </div>
+</div>
+

@@ -1,0 +1,167 @@
+.date-list,.dates
+{
+    width: 100%;
+    height: 100%;
+}
+.header
+{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #353a42;
+    color: #ffffff;
+}
+.dates
+{
+  display: flex;
+  height:90%;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+}
+.date
+{
+    width: 80%;
+    height: 100px;
+    margin: 20px;
+    border: solid black 0.2px;
+}
+.date-icon
+{
+    height: 100px;
+    width: 100px;
+}
+.year-month,.day
+{
+    width: 100%;
+    
+}
+.year-month
+{
+    height: 20px;
+    color: #ffffff;
+    list-style: none;
+    text-align: center;
+    background: #3498db;
+}
+.day
+{
+   height: 80px;
+   box-shadow: 0px 0px 10px rgb(184, 182, 182);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.day h3
+{
+    font-size: 40px;
+}
+.filter
+{
+    background: #eee;
+    color:#353a42;
+    border-right: solid #cfd0d1 0.2px;
+    transition: ease 1s linear;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 300px;
+    justify-content: space-around;
+    flex-direction: column;
+    transition: ease-in 0.5s;
+    border-right: #353a42;
+}
+.filter div,.filter h1
+{
+   
+}
+.search-button
+{
+    margin-left: 30px;
+}
+#search
+{
+    margin-right: 30px;
+}
+.by-month
+{
+   
+}
+.by-date-month select
+{
+   
+    margin-left: 10px;
+    padding: 10px;
+    outline: none;
+    background: #77e077;
+    border: none;
+    font-size: 16px;
+    color: #535353;
+    margin-left: 10px;
+}
+.from-to
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+
+}
+
+.from-to input
+{
+    height: 100%;
+    margin-left: 10px;
+    border: none;
+    border: #a6d8ff solid 3px;
+    outline: navy;
+}
+.from-to label
+{
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 10px;
+    outline: none;
+    width: 100%;
+    background: #dadada;
+    border: none;
+    display: inline-block;
+    text-align: end;
+    font-size: 16px;
+    color: #535353;
+}
+
+.date-content
+{
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    
+
+}
+.description
+{
+    width: 700px;
+    word-break: break-word;
+    text-overflow: ellipsis;
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #fff;
+    font-size: 18px;
+    line-height: 25px;
+    box-shadow: 0px 0px 13px #d3d2d2;
+
+}
+.open
+{
+    display: none;
+    height: 300px;
+    transition: ease-in 0.5s;
+}
+.date-content:hover
+{
+    transition: ease 1s;
+    box-shadow: 0px 0px 10px grey;
+}

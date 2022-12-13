@@ -1,0 +1,239 @@
+.editer
+{
+    height: 100%;
+    width: 100%;
+}
+*{
+    /* border: solid 1px black; */
+}
+.quick-drop
+{
+    margin-left: 0px;
+    transition: 1s ease;
+}
+#view-link{
+    margin-top: 0px;
+}
+.view-link-up{
+    margin-top: 0px;
+}
+.option
+{
+    height: 50px;
+    margin-top:20px;
+    border-bottom: 1px solid #e8e8e8;
+    width: 100%;
+    position: relative;
+}
+.save-status
+{
+    position:absolute;
+    padding: 10px 20px;
+    width: max-content; 
+    border: green solid 1px;
+    background: rgb(113, 190, 113);
+    top:75px;
+    left: 40%;
+   
+    opacity: 0;
+
+    transition: 1s ease;
+}
+.save-status-toggle
+{
+    opacity: 0.7;
+    top: 90px;
+}
+.blue-button
+{
+    padding: 10px 20px;
+    background: #3498db;
+    cursor: pointer;
+    border: none;
+    float: right;
+    color: #fff;
+    margin-right: 100px;
+    box-shadow: 0px 0px 5px 1px rgb(158, 156, 156);
+}
+.editer-container
+{
+
+    display: flex;
+    width: 90%;
+    padding: 30px;
+    height: 70%;
+    overflow-y: scroll;
+    flex-direction: column;
+    align-items: center;
+   
+}
+::-webkit-scrollbar
+{
+   width: 10px;
+   background: #eee;
+}
+::-webkit-scrollbar-thumb
+{
+    background: #a0a0a0;
+    border-radius: 5px;
+}
+.paper
+{
+    background: #fff;
+    min-height: 1333px;
+    height: max-content;
+    width: 1000px;
+    padding-bottom: 30px;
+    box-shadow: 0px 0px 10px grey;
+}
+.quick select
+{
+    border: none;
+    background: wheat;
+    outline: none;
+    margin-left: 15px;
+}
+.quick input[type=date]
+{
+    outline: none;
+    border-radius: 10px;
+    border: none;
+}
+.page-date
+{
+    width: 100%;
+    height: 100px;
+}
+.page-date h3
+{
+   
+    margin-top: 50px;
+    width: max-content;
+    float: right;
+    margin-right: 50px;
+}
+
+.paper-pattern
+{
+    position: relative;
+    margin: 20px;
+    margin-left: 100px;
+    background-image: linear-gradient(#f015de 1px, transparent 0px);
+    background-size: 100% 3em;
+    min-height: 1150px;
+    height: max-content;
+    /*
+    Display the content on top of the lines.
+    The line height must be the same as the background size defined above
+    */
+    background-position-y: 2rem;
+    line-height: 3em;
+    
+}
+.content
+{
+    position: relative;
+    top: 47px;
+    font-size: 30px;
+}
+.editable-content
+{
+    word-wrap: break-word;
+    border: none;
+    outline: none;
+}
+.page-date{
+    color:#f015de;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+}
+.note,.note-title,.note-content
+{
+    padding: 10px;
+    border: 1px solid gainsboro;
+    height: max-content;
+    outline: none;
+}
+.note{
+    width: 60vw;
+    padding: 20px;
+    position: relative;
+    box-shadow: 0px 0px 5px rgb(230, 227, 227);
+    padding-bottom: 60px;
+    border-radius: 10px;
+    font-family: sans-serif;
+    word-wrap: break-word;
+    margin: 0px 0px;
+    margin-top: 60px;
+}
+.note:hover
+{
+    box-shadow: 0px 0px 10px rgb(191, 190, 190);
+}
+.note-title{
+
+    min-height: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(97, 97, 97);
+}
+.note-content{
+    min-height: 140px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+
+.add-note
+{
+    position: absolute;
+    bottom: 30px;
+    right: 100px;
+    font-size: 40px;
+    box-shadow: 0px 0px 10px grey;
+    border-radius: 50%;
+    background: white;
+    height: 50px;
+    width: 50px;
+    z-index: 10;
+    text-align: center;
+    transition: 0.5s ease;
+}
+
+
+.note #save-note
+{
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    cursor: pointer;
+    background: #3498db;
+    border: #51a2d8;
+    height: 30px;
+    width: 70px;
+    border-radius: 5px;
+}
+.add-note button
+{
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+.add-note span
+{
+    font-weight: bold;
+}
+.add-note:hover
+{
+    transition: 1s ease ;
+    background: rgb(46, 225, 114);
+}
+.options
+{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 5px 10px;
+    display: flex;
+}

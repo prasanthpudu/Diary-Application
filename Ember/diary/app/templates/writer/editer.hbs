@@ -1,0 +1,22 @@
+{{page-title "Editer"}}
+{{this.onLoad}}
+<div class="editer">
+    <div class="add-note">
+        <button type="button">
+             <span class="material-symbols-outlined" {{on 'click' this.newNote}}>add</span>
+        </button>
+    </div>
+   <Header @heading={{"Editer"}}/>
+    <div class="option">
+        <div class="save-status">
+        saved successfully
+    </div>
+    </div>
+    
+    <div class="editer-container">
+        {{#each this.data.notes as |text|}}
+        <Note @id={{text.id}} @title={{text.title}} @text={{text.text}} @edit="true" @date={{text.time}}/>
+        
+        {{/each}}
+    </div>
+</div>

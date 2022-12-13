@@ -1,0 +1,28 @@
+<div class="register">
+    <h3>Register</h3>
+    <div class="form">
+        <label for="username">User Name</label>
+      <Input @type="text" id="username" @value={{this.userName}}  onchange={{action 'checkName'}} />
+          <p class="info" id="username-info"></p> 
+         <label for="dateofbirth">Date of birth</label>
+      <Input @type="date" id="dateofbirth" @value={{this.dateOfBirth}}/>
+         <label for="location">location</label>
+      <Input @type="text" id="location" onchange={{action 'checkLocation'}} @value={{this.location}}/>
+          <p class="info" id="location-info"></p> 
+      <div class="input">
+            <label for="gender">Gender</label><select name="gender" id="gender" class="input" value={{this.data.bioData.gender}} {{on 'change' this.setGender}} >
+               <option value="default">Select</option>
+            <option value="Male">Male</option>
+            <option value="Male">female</option>
+            <option value="other">Others</option>
+        </select>
+         </div>
+          <p class="info" id="gender-info"></p> 
+        <label for="phoneno">Phoneno</label>
+      <Input @type="text" id="phoneno"  onchange={{action 'checkPhoneNo'}}  
+        @value={{this.phoneNo}}/>
+          <p class="info" id="phoneno-info"></p> 
+        <button id="submit" type="button" {{on 'click' this.register}}>Register</button>
+    </div>
+    <p id="register-info"></p>
+</div>

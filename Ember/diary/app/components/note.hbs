@@ -1,0 +1,25 @@
+<div class="note" id={{@id}} >
+        <div class="container">
+            <div class="note-title" id="" contenteditable={{@edit}} spellcheck="false">
+            {{@title}}
+            </div>
+            <div class="note-content" id="note-content" contenteditable={{@edit}} spellcheck="false">
+                {{{@text}}}
+            </div>
+        </div>
+    <div class="options" id={{@date}}>
+        {{#unless @edit}}
+        <div class="delete">
+
+            <button id="delete" type="button" {{on 'click' this.delete}}><span class="material-symbols-outlined">delete</span></button>
+            </div>
+        {{/unless}}
+        <div class="star">
+            
+            <button id="delete" type="button" {{on 'click' this.star}}><span class="material-symbols-outlined {{if @stared "starednote"}}">star</span></button>
+        </div>
+    </div>
+    {{#if @edit}}
+    <button type="button" id="save-note" {{on 'click' this.getData }}>Save</button>
+    {{/if}}
+</div>

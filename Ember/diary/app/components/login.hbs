@@ -1,0 +1,13 @@
+<div class="login">
+
+    <h3>Login</h3>
+    <div class="form">
+        <label for="user-id">user id/emailid</label>
+        <Input @type="text" id="user-id" @value={{this.data.userId}}/>
+        <label for="password">password</label>
+        <Input @type="password" id="password" @value={{this.data.password}} onchange={{this.checkPassword}}/>
+         <p class="info" id="password-info"></p> 
+        <button id="submit" type="button" {{on 'click' this.login}}>Login</button>
+    </div>
+    <p id="login-info"></p>
+</div>

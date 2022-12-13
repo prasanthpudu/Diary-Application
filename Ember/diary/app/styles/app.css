@@ -1,0 +1,28 @@
+@import url("home.css");
+@import url("writer.css");
+@import url("datelist.css");
+@import url("editer.css");
+@import url("bio-data.css");
+*{
+    margin: 0px;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+     overflow-x: hidden;
+  
+}
+a{
+    text-decoration: none;
+}
+.ember-application
+{
+    height: 100%;
+    width: 100%;
+}
+button
+{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
