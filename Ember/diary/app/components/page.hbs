@@ -1,0 +1,57 @@
+<div class="outer">
+    <div class="page">
+        <div class="head-option"></div>
+         <form class="upload-action">
+                <div id="button-video" onchange={{action 'fileAction'}}>
+                    <input id="video-input" accept="video/mp4,video/x-m4v" type="file" multiple/>
+                    <label for="video-input"> <span class="material-symbols-outlined">
+                        movie
+                        
+                    </span></label>
+                   
+                </div>
+                <div id="button-audio"  onchange={{action 'fileAction'}}>
+                    <input type="file"   accept=".mp3" id="audio-input" multiple/>
+                    <label for="audio-input">
+                           <span  class="material-symbols-outlined">
+                        headphones
+                    </span>
+                    </label>
+                 
+                </div>
+                <div id="button-image" onchange={{action 'fileAction'}}>
+                    <input type="file"  accept="image/png, image/jpeg" id="image-input" multiple/>
+                    <label for="image-input">
+                         <span class="material-symbols-outlined">
+                        image
+                         </span>
+                    </label>
+                </div>
+                <div id="button-save" onclick={{action 'upload'}}>
+                     <button type="button" onchange={{action 'fileAction'}}>Save</button>
+                </div>
+               
+         </form>
+        <div class="container" >
+            <div class="close">
+                <button id="page-close" onclick={{action 'didAction'}} type="button">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+               
+            </div>
+            <div class="content" id={{this.data.id}}>
+            <div class="title" placeholder="Title" contenteditable={{this.data.edit}}>
+                {{{this.data.title}}}
+            </div>
+            <div class="text" placeholder="Text" contenteditable={{this.data.edit}}>
+               {{{this.data.text}}}
+            </div>
+            </div>
+            <div class="media" id="media">
+                {{{this.data.media}}}
+            </div>            
+        </div>
+    </div>
+</div>

@@ -1,3 +1,9 @@
-<div class="header">
+<div class="header ">
+        <button id="toggle-nav" type="button" onclick={{action 'didAction'}}>
+                <span class="material-symbols-outlined">
+                        menu
+                </span>
+        </button>
         <h1>{{@heading}}</h1>
-    </div>
+         <LinkTo class="header-link" @route="writer.biodata" ><Profile/></LinkTo>
+</div>

@@ -1,0 +1,16 @@
+<div class="cropper d-flex">
+    <div class="content">
+        <div class="image-frame">
+            <img id="preview" src="" alt=""/>
+        </div>
+        <div class="options">
+            <button onclick={{action 'didAction'}} id="crop" type="button">
+                crop
+            </button>
+             <button onclick={{action 'didAction'}} id="upload" type="button">
+                upload
+            </button>
+        </div>
+    </div>
+    {{this.onLoad}}
+</div>

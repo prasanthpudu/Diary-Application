@@ -1,0 +1,17 @@
+<div class="profile d-flex">
+    {{#unless @edit}}
+    <div class="disp-name">
+        prasanth
+    </div>
+    {{/unless}}
+    <div class="disp-pic">
+    <div class="picture">
+         <label for="file"><img id="profile-pic"/></label>
+          {{#if @edit}}
+                <form id="upload-form" class="upload-box" action="upload" method="POST" enctype="multipart/form-data">
+                    <input type="file" id="file" name="file1" onchange={{action 'didAction'}}/>
+                </form>
+          {{/if}}
+    </div>
+    </div>
+</div>

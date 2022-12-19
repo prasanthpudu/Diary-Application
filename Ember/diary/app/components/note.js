@@ -4,9 +4,9 @@ import { service } from '@ember/service';
 
 export default class NoteComponent extends Component {
   @service('data') data;
+  viewing = false;
   @action
   getData(event) {
-    let da = document.getElementById('note-content');
     let data = event.target;
     let note = $($(data).parent().children()[0]).children();
     let id = $(data).parent().attr('id');
@@ -106,8 +106,70 @@ export default class NoteComponent extends Component {
       success: (response) => {
         console.log(response + 'responses');
         $(data).toggleClass('starednote');
-
       },
     });
+  }
+  @action
+  didAction(event) {
+    console.log(event);
+    let action = $($(event.target).parent())[0].id;
+    console.log(action);
+    if (action === 'option-edit') {
+      this.data.edit = true;
+      $('.blur').css('z-index', '3');
+      $('.outer').animate(
+        {
+          top: '100px',
+        },
+        'slow'
+      );
+    }
+    if (action === 'option-view') {
+      this.data.edit = false;
+      $('.blur').css('z-index', '3');
+      $('.outer').animate(
+        {
+          top: '100px',
+        },
+        'slow'
+      );
+    }
+
+    this.data.title = this.args.title.trim();
+    this.data.text = this.args.text.trim();
+    let media = this.args.media.trim();
+    console.clear()
+    console.log();
+   let datas=$(this.setSrc(media));
+    console.log(datas);
+    let array =[];
+    let element = document.createElement('p');
+   for(let i = 0; i < datas.length; i++){
+   console.log($(datas[i])[0]);
+   element.append($(datas[i])[0]);
+   }
+   this.data.media= element.innerHTML;
+   this.data.id = this.args.id.trim();
+    setTimeout(() => {
+      let title = $('.page .title');
+      let text = $('.page .text');
+      if (!title.text().trim().length) {
+        title.empty();
+      }
+      if (!text.text().trim().length) {
+        text.empty();
+      }
+    }, 200);
+  }
+  @action
+  setSrc(tags){
+    let elements = $(tags)
+    console.log(elements);
+    for(let i = 0; i < elements.length; i++){
+    let id = $(elements[i])[0].id;
+    let url = this.data.domain+'/assets/'+this.data.userId+'/media/image/2022-12-19/'+id+'.jpg';
+    $(elements[i]).children().attr('src', url);
+  }
+  return elements;
   }
 }

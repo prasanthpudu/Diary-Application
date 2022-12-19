@@ -1,0 +1,127 @@
+.outer{
+    height: calc(100% - 100px);
+    width: 100%;
+    top:1000px;
+    position: absolute;
+    overflow-y:scroll ;
+
+}
+.page{
+    position: absolute;
+    padding-bottom: 80px;
+    width: 60%;
+    min-height: 90%;
+    height: max-content;
+    bottom: -20px;
+    background: #fff;
+    justify-self: center;
+    margin: 0px auto;
+    top: 150px;
+    left: 0;right:0;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px #bbb;
+    z-index: 5;
+    .container{
+        position: relative;
+        .close{
+            position: absolute;
+            right: 20px;
+            display:none;
+            cursor: pointer;
+            &:hover{
+                span{
+                    color: red;
+                }
+              
+            }
+          
+        }
+        &:hover{
+            .close{
+                display: block;
+
+            }
+           
+        }
+    }
+    .title{
+        font-weight: 300;
+        font-size: 24px;
+        color: #000000;
+        font-family: 'Roboto', sans-serif;
+        &[contenteditable]:empty:before {
+            content: attr(placeholder);
+            pointer-events: none;
+            color: #666;
+            
+            display: block; /* For Firefox */
+          }
+        
+    }
+    .text{
+        font-size: 14px;
+        font-size: 18px;
+        font-weight: 400;
+        margin-top: 30px;
+        color: #000000;
+        &[contenteditable]:empty:before {
+            content: attr(placeholder);
+            pointer-events: none;
+            color:#aaa ;
+            display: block; /* For Firefox */
+          }
+        
+       
+    }
+    .media{
+        width: 100%;
+        height: 200px;
+        margin-top: 30px;
+        overflow-y: scroll;
+        border: 1px solid #000;
+        margin-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        div{
+            height: 100px;
+            width: 130px;
+            border: 1px solid #000;
+            margin: 5px;
+            video,img,audio{
+                height: 100%;
+                width: 100%;
+            }
+        }
+        &::-webkit-scrollbar{
+            width: 3px;
+            background: rgb(179, 178, 178);
+        }
+        &::-webkit-scrollbar-track {
+            background: rgb(227, 225, 225);
+        }
+    } 
+    .upload-action{
+        width: 100%;
+        height: 50px; 
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        position: absolute;
+        bottom:10px;
+        input{
+            width:20px;
+            height: 20px;
+            display: none;
+        }
+        span{
+            margin-left: -20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 6;
+            &:hover{
+                color: #0080FF ;
+            }
+        }
+    }
+}

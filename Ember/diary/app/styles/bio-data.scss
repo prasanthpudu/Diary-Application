@@ -1,0 +1,42 @@
+.bio{
+    display: flex;
+    flex-direction: column;
+    width: 470px;
+    padding: 50px;
+    position: relative;
+}
+
+.bio-data
+{
+    position: relative;
+    height: 100%;
+}
+.bio input, .bio select
+{
+    width: 160px;
+    
+}
+.bio label 
+{
+    display: inline-block;
+}
+#update
+{
+    height: 30px;
+    width: 100px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgb(38, 187, 38);
+}
+.bio .input
+{
+    width: 60%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+#id
+{
+
+}

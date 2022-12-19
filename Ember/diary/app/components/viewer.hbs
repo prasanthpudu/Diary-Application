@@ -1,0 +1,6 @@
+<div class="viewer">
+     
+      {{#each this.data.notes as |note|}}
+      <Note @title={{note.title}} @text={{note.text}}  @id={{note.id}} @media={{note.media}}/>
+      {{/each}}
+</div>

@@ -1,32 +1,31 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import {action } from '@ember/object';
+import { action } from '@ember/object';
 export default class WriterRoute extends Route {
   @service router;
   @service('data') data;
-  beforeModel() {
+  async beforeModel() {
     let today = new Date().getTime();
     today = this.setDate(today);
-    $.ajax({
-      type: 'get',
-      url: 'http://' + this.data.host + '/Diary/getsession',
-      xhrFields: {
-        withCredentials: true,
-      },
-      success: (response) => {
-        console.log('resonponing');
-        let data = JSON.parse(response);
-        this.data.userId = data.userId;
-        console.log('userId' + data.userId);
-        this.router.transitionTo('writer.view',today);
-      },
-      statusCode: {
-        404: () => {
-          console.log('exiedt');
-          this.router.transitionTo('login');
-        },
-      },
-    });
+    let type = 'get';
+    let url = this.data.domain + '/session';
+    let data = 'type=getsession';
+    let processData = true;
+    let contentType;
+    let response = await this.data.ajax(
+      type,
+      url,
+      data,
+      processData,
+      contentType,
+      true
+    );
+    this.data.userId = JSON.parse(response).userId;
+   
+    this.router.transitionTo('writer.view',today);
+    console.log(this.data.userId + 'from sevice');
+
+    return;
   }
   @action
   setDate(millseconds) {

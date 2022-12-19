@@ -1,0 +1,24 @@
+<div class="nav-bar">
+
+    <ul class="nav flex-column">
+        <LinkTo class="link" @route="writer.view" @model="2022-12-12" id="view-link"><span class="material-symbols-outlined">
+                note
+            </span>viewer</LinkTo>
+        <LinkTo class="link" @route="writer.stared"><span class="material-symbols-outlined">
+                stars
+            </span>stared</LinkTo>
+        <button class="link" type="button"><span class="material-symbols-outlined">
+               calendar_month
+            </span>filter
+        </button>
+            <div class="filter">
+                <LinkTo class="link" @route="writer.view" @model={{this.data.today}}>Today</LinkTo>
+                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>Yesterday</LinkTo>
+                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>The Day</LinkTo>
+                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>Yesterday</LinkTo>
+            </div>
+           
+  
+    </ul>
+
+</div>

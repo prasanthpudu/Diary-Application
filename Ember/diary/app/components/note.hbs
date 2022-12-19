@@ -1,4 +1,67 @@
-<div class="note" id={{@id}} >
+
+<div class="note" {{@note}} id={{@id}}>
+    <div class="title" contenteditable={{@edit}}>
+        {{{@title}}}
+    </div>
+    <div class="text" contenteditable={{@edit}}>
+        {{{@text}}}
+    </div>
+    <div class="medias" {{@media}}>
+        
+    </div>
+    <div class="options">
+        <button onclick={{action 'didAction'}} class="option" id="option-star" type="button"><span class="material-symbols-outlined">
+                star
+            </span></button>
+        <button class="option" id="option-media" type="button">
+            <span class="material-symbols-outlined">
+                add_photo_alternate
+            </span>
+        </button>
+        <button onclick={{action 'didAction'}} class="option" id="option-view" type="button"><span class="material-symbols-outlined">
+                visibility
+            </span></button>
+        <button onclick={{action 'didAction'}} class="option" id="option-edit" on type="button">
+            <span class="material-symbols-outlined">
+                edit
+            </span>
+        </button>
+        <button onclick={{action 'didAction'}}  class="option" id="option-delete" type="button">
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+        </button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{!-- <div class="note" id={{@id}} >
         <div class="container">
             <div class="note-title" id="" contenteditable={{@edit}} spellcheck="false">
             {{@title}}
@@ -22,4 +85,4 @@
     {{#if @edit}}
     <button type="button" id="save-note" {{on 'click' this.getData }}>Save</button>
     {{/if}}
-</div>
+</div> --}}

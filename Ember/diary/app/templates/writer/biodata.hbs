@@ -1,19 +1,23 @@
 {{page-title "Biodata"}}
 <div class="bio-data">
-    <Header @heading={{"Bio Data"}}/>
      <div class="save-status">
         saved successfully
     </div>
     <div class="bio">
+        <Profile @edit="true" />
+        {{#if this.data.cropper}}
+        <Cropper/>
+        {{/if}}
         <h1>User Id   :<span>{{this.data.userId}}</span></h1>
        <div class="input"><label for="username">Username</label> <Input @value={{this.data.bioData.name}} id="username" ></Input></div>
          <div class="input"><label for="dateofbirth">Date dateOfBirth</label> <Input @type="date" @value={{this.data.bioData.dateofbirth}} id="dateofbirth" ></Input></div>
          <div class="input">
-            <label for="gender">Gender</label><select name="gender" id="gender" class="input" value={{this.data.bioData.gender}} {{on 'change' this.setGender}}>
-            <option value="Male">Male</option>
-            <option value="Male">female</option>
-            <option value="other">Others</option>
-        </select>
+            <label for="gender">Gender</label>
+            <select name="gender" id="gender" class="input" value={{this.data.bioData.gender}} {{on 'change' this.setGender}}>
+                <option value="Male">Male</option>
+                <option value="Male">female</option>
+                <option value="other">Others</option>
+            </select>
          </div>
          <div class="input"><label for="location">Location</label><Input  @value={{this.data.bioData.location}} ></Input></div>
          <div class="input"><label for="phoneno">Phoneno</label><Input for="phoneno" @value={{this.data.bioData.phoneno}} ></Input></div>

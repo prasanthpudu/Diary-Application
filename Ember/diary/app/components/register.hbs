@@ -1,6 +1,41 @@
 <div class="register">
-    <h3>Register</h3>
-    <div class="form">
+      <div class="module form-module">
+        <div class="toggle"><i class="fa fa-times fa-pencil"></i>
+            <div class="tooltip">Click Me</div>
+        </div>
+         <div class="form register-form">
+            <h2>Create an account</h2>
+            <form>
+               
+                <Input @type="text" @value={{this.userName}} placeholder="Username" pattern="^[a-zA-Z]+$" required/>
+                <Input @type="text"@value={{this.location}} placeholder="Location" pattern="^[a-zA-Z]+$" />
+                <Input @type="text" @value={{this.phoneNo}} placeholder="Phone Number" pattern="^\d{5,12}$"/>
+                
+                <label for="gender">Gender</label><select name="gender" id="gender" class="input" value={{this.gender}} {{on 'change' this.setGender}} >
+                  <option value="default">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Male">female</option>
+                  <option value="other">Others</option>
+              </select>
+              <Input @type="date" @value={{this.dateOfBirth}} required />
+                <Input type="password" @value={{this.password}} placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required/>
+                <button type="submit" onclick={{action 'next'}}>Next</button>
+            </form>
+      </div>
+     <form class="form security">
+        <label for="question1">Which is your childhood pet Name</label>
+        <Input @type="text" name="question1" @value={{this.question1}} required/>
+        <label for="question2">Which is your Favourite Actor</label>
+        <Input @type="text" name="question2" @value={{this.question2}} required/>
+        <button type="submit" onclick={{action 'register'}}>Register</button>
+     </form>
+    </div>
+    
+    
+</div>
+
+
+{{!-- <div class="form">
         <label for="username">User Name</label>
       <Input @type="text" id="username" @value={{this.userName}}  onchange={{action 'checkName'}} />
           <p class="info" id="username-info"></p> 
@@ -24,5 +59,4 @@
           <p class="info" id="phoneno-info"></p> 
         <button id="submit" type="button" {{on 'click' this.register}}>Register</button>
     </div>
-    <p id="register-info"></p>
-</div>
+    <p id="register-info"></p> --}}

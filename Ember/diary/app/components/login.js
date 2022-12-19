@@ -6,46 +6,62 @@ export default class LoginComponent extends Component {
   @service('data') data;
   @service router;
   @action
-  login() {
-    if (!this.validPassword) {
-      return;
+  async login(event) {
+    event.preventDefault();
+    let userId = $('#userid').val();
+    let type = 'post';
+    let url = this.data.domain + '/login';
+    let processData = true;
+    let contentType;
+    console.log(event);
+    let action = $(event.target)[0].id;
+    console.log(action);
+    if (action == 'check') {
+      let data = 'userid=' + userId + '&type=check';
+      let response = await this.data.ajax(
+        type,
+        url,
+        data,
+        processData,
+        contentType,
+        true
+      );
+      console.log(response + 'from login');
+      if (response == 'success') {
+        console.log(response + 'from login');
+        $('.module').animate(
+          {
+            width: 'toggle',
+            opacity: 'toggle',
+          },
+          'fast'
+        );
+        // $(".password-form").slideDown();
+      }
+      if (response == 'notfound') {
+        this.router.transitionTo('register');
+      }
     }
-    $.ajax({
-      type: 'post',
-      url: 'http://' + this.data.host + '/Diary/login',
-      data: 'userid=' + this.data.userId + '&password=' + this.data.password,
-      xhrFields: {
-        withCredentials: true,
-      },
-      success: (response) => {
-        console.log('resonponing');
-        console.log(response);
+    if (action == 'login') {
+      let password = $('#password').val();
+      let data = 'userid=' + userId + '&password=' + password + '&type=login';
+      let response = await this.data.ajax(
+        type,
+        url,
+        data,
+        processData,
+        contentType,
+        true
+      );
+      console.log(response + 'jdfasj resdifpjfds');
+      if (response.trim() == 'success') {
         this.router.transitionTo('writer');
-      },
-      statusCode: {
-        404: () => {
-          console.log('not found');
-          this.router.transitionTo('register');
-        },
-        400: () => {
-          $('#login-info').text('incorrect username or password');
-          setTimeout(() => {
-            $('#login-info').text('');
-          }, 3000);
-        },
-      },
-    });
-  }
-  @action
-  checkPassword() {
-    let string = this.data.password;
-    if (string.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')) {
-      $('#password-info').text('');
-      this.validPassword = true;
-    } else {
-      $('#password-info').text('Invalid password');
-      console.log('false');
-      this.validPassword = false;
+        console.log(response + 'hangin from login');
+        // $(".password-form").slideDown();
+      }
+      if (response == 'notfound') {
+        this.router.transitionTo('login');
+      }
     }
   }
 }

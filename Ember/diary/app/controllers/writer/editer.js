@@ -37,7 +37,7 @@ export default class WriterEditerController extends Controller {
       data: JSON.stringify(json),
       success: (response) => {
         console.log(response + 'responses');
-        console.log("saved syces");
+        console.log('saved syces');
         $('.save-status').toggleClass('save-status-toggle');
         setTimeout(() => {
           $('.save-status').toggleClass('save-status-toggle');
@@ -68,15 +68,5 @@ export default class WriterEditerController extends Controller {
         },
       },
     });
-  }
-  @action
-  newNote() {
-    let note = {
-      title: '',
-      text: '',
-      starred: false,
-      id: '',
-    };
-    this.data.notes = [note, ...this.data.notes];
   }
 }

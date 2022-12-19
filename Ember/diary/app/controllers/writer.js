@@ -7,11 +7,11 @@ import Route from '@ember/routing/route';
 
 export default class WriterController extends Controller {
   @service router;
-  @service('data') datas;
+  @service('data') data;
   @tracked lastTwoDates;
   today;
 
-  previousDay;
+  yesterday;
   filters = false;
   @action
   toggle() {
@@ -36,20 +36,21 @@ export default class WriterController extends Controller {
   setToday() {
     let today = new Date().getTime();
     this.today = this.setDate(today);
+    this.data.today = this.today;
   }
   @action
-  setPreviousDay() {
-    let previousDay = new Date();
-    previousDay.setDate(previousDay.getDate() - 1);
-    this.previousDay = this.setDate(previousDay.getTime());
+  setYesterday() {
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    this.yesterday = this.setDate(yesterday.getTime());
   }
- 
+
   @action
   logout() {
     $.ajax({
       type: 'get',
-      url: 'http://' + this.host + '/Diary/logout',
-      data: 'userId=' + this.datas.userId,
+      url: 'http://' + this.host + '/Diary/l',
+      data: 'userId=' + this.data.userId,
       xhrFields: {
         withCredentials: true,
       },
@@ -67,32 +68,37 @@ export default class WriterController extends Controller {
   }
   @action
   lastTwo() {
-    $.ajax({
-      type: 'get',
-      url: 'http://' + this.host + '/Diary/lasttwo',
-      data: 'userid=' + this.datas.userId + '&yesterday=' + this.previousDay,
-      success: (response) => {
-        console.log('resonponing');
+    let type = 'get';
+    let url = this.data.domain + '/search';
+    let data =
+      'type=lasttwodates&userid=' +
+      this.data.userId +
+      '&yesterday=' +
+      this.yesterday;
+    let processData = true;
+    let contentType;
+    this.data
+      .ajax(type, url, data, processData, contentType, true)
+      .then((response) => {
         this.lastTwoDates = JSON.parse(response);
         console.log(this.lastTwoDates);
-       
-      },
-    });
+      });
   }
   @action
-  getBioData(){
-    $.ajax({
-      type: 'get',
-      url: 'http://' + this.host + '/Diary/getbiodata',
-      data: 'userid=' + this.datas.userId ,
-      success: (response) => {
-        console.log('resonponing');
-       this.datas.bioData=JSON.parse(response);
-       console.log("biodata");
-       console.log(this.datas.bioData);
-       
-      },
-    });
+  getBioData() {
+    console.log('happening');
+    let type = 'post';
+    let url = this.data.domain + '/userdetails';
+    let data = 'type=getbio&userid=' + this.data.userId;
+    let processData = true;
+    let contentType;
+    this.data
+      .ajax(type, url, data, processData, contentType, true)
+      .then((response) => {
+        this.data.bioData = JSON.parse(response);
+        console.log(this.data.bioData);
+      });
+    
   }
   @action
   searchDates(event) {
@@ -115,12 +121,12 @@ export default class WriterController extends Controller {
     $.ajax({
       type: 'get',
       url: 'http://' + this.host + '/Diary/searchdates',
-      data: 'userid=' + this.datas.userId + '&start=' + start + '&end=' + end,
+      data: 'userid=' + this.data.userId + '&start=' + start + '&end=' + end,
       success: (response) => {
         console.log('resonponing');
         this.datas.dates = JSON.parse(response);
         let array = JSON.parse(response);
-        this.datas.searchList = A([]);
+        this.data.searchList = A([]);
         console.log(this.datas.dates);
         array.forEach((data) => {
           let months = [
@@ -151,15 +157,15 @@ export default class WriterController extends Controller {
             monthYear,
             day,
           };
-          this.datas.searchList.pushObject(singleDay);
+          this.data.searchList.pushObject(singleDay);
         });
         this.router.transitionTo('writer.datelist');
       },
     });
   }
-  @action goTo(event){
-      let data = $(event.target).val();
-      let date = this.setDate(data);
-      this.router.transitionTo('writer.view',date);
+  @action goTo(event) {
+    let data = $(event.target).val();
+    let date = this.setDate(data);
+    this.router.transitionTo('writer.view', date);
   }
 }

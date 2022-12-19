@@ -1,6 +1,36 @@
 <div class="login">
+    <div class="module form-module email-form">
+        
+         <div class="form">
+            <h2>Login to your account</h2>
+            <form>
+                <Input id="userid" type="text" @value={{this.data.userId}} placeholder="email/userid" />
+                <button id="check" type="submit" onclick={{action 'login'}}>Login/Register</button>
+            </form>
+           
+            <p id="login-info"></p>
+        </div>
+    </div>
+    <div class="module form-module password-form">
+        
+         <div class="form">
+            <h2>Login to your account</h2>
+           <form >
+                <input id="password" type="password" placeholder="Password" />
+                <button  id="login" type="submit" onclick={{action 'login'}}>Login/Register</button>
+            </form>
+           
+            <p id="login-info"></p>
+        </div>
+    </div>
+</div>
 
-    <h3>Login</h3>
+
+{{!-- 
+
+
+
+<h3>Login</h3>
     <div class="form">
         <label for="user-id">user id/emailid</label>
         <Input @type="text" id="user-id" @value={{this.data.userId}}/>
@@ -9,5 +39,4 @@
          <p class="info" id="password-info"></p> 
         <button id="submit" type="button" {{on 'click' this.login}}>Login</button>
     </div>
-    <p id="login-info"></p>
-</div>
+    <p id="login-info"></p> --}}
