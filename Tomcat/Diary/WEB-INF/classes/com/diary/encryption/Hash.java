@@ -4,11 +4,12 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Hash {
-    public static String toSHA1(String password) {
+    public static String toSHA1(String password,String algorithm) {
         byte passwordByte[]= password.getBytes();
         MessageDigest md = null;
         try {
-            md = MessageDigest.getInstance("SHA-1");
+          //SHA-1 // MD5
+            md = MessageDigest.getInstance(algorithm);
         }
         catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -25,7 +26,7 @@ public class Hash {
         return result;
       }
       public static void main(String[] args) {
-        String password = toSHA1("Prasanth1");
+        String password = toSHA1("Prasanth1","MD5");
         System.out.println("result "+password);
       }
 }

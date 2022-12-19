@@ -41,9 +41,7 @@ public class RegisterFilter implements Filter {
         else
         {
             System.out.println("executing else");
-            resp.addHeader("Access-Control-Allow-Origin", AppVariables.HOST);
-            resp.addHeader("Access-Control-Allow-Credentials", "true");   
-            resp.setStatus(400);
+            resp.getWriter().write("invalid");
         }
     }
 }

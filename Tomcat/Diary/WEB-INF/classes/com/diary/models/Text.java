@@ -3,6 +3,8 @@ package com.diary.models;
 public class Text {
     private String title;
     private String text;
+    private String media;
+
     private String userId;
     private String id;
     public String getId() {
@@ -28,6 +30,12 @@ public class Text {
     }
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+    public String getMedia() {
+        return media;
+    }
+    public void setMedia(String media) {
+        this.media = media;
     }
 
 }
