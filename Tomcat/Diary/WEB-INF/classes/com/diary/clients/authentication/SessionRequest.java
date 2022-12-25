@@ -20,8 +20,11 @@ public class SessionRequest extends HttpServlet{
         if(type.equals("logout")){
             if(SessionController.getSessionController().removeCookie(req.getCookies())==200){
                 Cookie cookie = new Cookie("diarysession","deleted");
+                Cookie key = new Cookie("key","deleted");
+                key.setMaxAge(0);
                 cookie.setMaxAge(0);
                 resp.addCookie(cookie);
+                resp.addCookie(key);
                 resp.getWriter().write("success");
             }
             else{

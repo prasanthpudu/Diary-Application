@@ -6,8 +6,8 @@
 .profile
 {
   width: 100%;
-  background: #fff;
   height: 100%;
+  margin-right: 20px;
   display: flex;
   align-items: center;
   padding:0px 20px;
@@ -39,7 +39,7 @@
 .nav-bar{
   width: 280px;
   height: 100%;
-  background: #fff;
+  background: rgb(244, 244, 244);
   padding-top: 20px;
   .nav{
     .link{

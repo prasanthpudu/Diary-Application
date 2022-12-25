@@ -24,6 +24,8 @@ body
 
 a{
     text-decoration: none;
+    color: initial;
+    font-family: inherit;
 }
 button{
     background: none;
@@ -35,4 +37,10 @@ button{
     height: 100%;
     overflow-y: hidden;
 
+}
+.star-note{
+    color: gold;
+}
+#gender{
+    width: max-content;
 }

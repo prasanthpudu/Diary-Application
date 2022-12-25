@@ -1,12 +1,14 @@
-.viewer{
+.viewer,.stared{
     flex:1;
     display: grid;
+    height: 100%;
     transition: ease in 1s;
     grid-template-columns: repeat(3,1fr);
     overflow-y:scroll ;
     padding: 10px;
     z-index: 1;
     position: relative;
+    width: 100%;
 
 }
 .link
@@ -23,14 +25,25 @@
     &:hover{
         background: #eee;
     }
+    select{
+        border: none;
+        width: 100%;
+        outline: none;
+        background:inherit;
+    }
+    input{
+        background: inherit;
+        border: none;
+
+    };
 }
 .header{
     width: 100%;
     padding: 20px;
     height: 70px;
     display: flex;
-    background: #fff;
-    z-index: 4;
+    background: #a2d8d5;   
+    z-index: 100;
     align-items: center;
     border-bottom: solid 1px #dadce0;
     button
@@ -55,7 +68,6 @@
 }
 
 .note{
-    min-height: 300px;
     height: max-content;
     width: 350px;
     margin: 15px;
@@ -70,9 +82,13 @@
     .title,.text{
         margin: 5px 2px;
         padding-left: 10px;
-
+        
+        word-wrap: break-word;
+        overflow: hidden;
     }
     .title{
+        white-space: nowrap;
+        text-overflow: ellipsis;
         font-size: 18px;
         height: 50px;
         font-weight: 800;
@@ -83,7 +99,7 @@
     }
     .text{
         font-size: 14px;
-        height: 230px;
+        height: 240px;
         font-size: 16px;
         font-weight: 400;
         color: #000000;
@@ -156,17 +172,20 @@
 {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top:-5px;
+    margin-left: -25px;
+    display: none;
 }
 .add-note{
     position: absolute;
-    right: 40px;
+    right: 70px;
     bottom: 40px;
     z-index: 4;
     background: white;
     padding: 10px;
     border-radius: 50%;
     box-shadow: 0px 0px 10px #ddd;
+  
     span{
         font-size: 30px;
         font-weight: 800;
@@ -177,5 +196,92 @@
     .profile
     {
         justify-content: flex-start;
+    }
+}
+.date-list{
+    width: calc(100% - 280px);
+}
+.date-list,.dates
+{
+    flex:1;
+    height: 100%;
+}
+.dates
+{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding-left: 100px;
+}
+.date
+{
+    width: 80%;
+    height: 100px;
+    margin: 20px;
+    border: solid black 0.2px;
+}
+.date-icon
+{
+    height: 100px;
+    width: 100px;
+}
+.year-month,.day
+{
+    width: 100%;
+    
+}
+.description{
+    border: solid 1px #eee;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px;
+    font-size: 16px;
+    width: 80%;
+    box-shadow: 0px 0px 1px #ddd;
+    margin-left: 10px;
+    overflow: hidden;
+    height: 100px;
+}
+.date-content{
+    display: flex;
+    margin-top: 20px;
+
+}
+.year-month
+{
+    height: 20px;
+    color: #ffffff;
+    list-style: none;
+    text-align: center;
+    background: #3498db;
+}
+.day
+{
+   height: 80px;
+   box-shadow: 0px 0px 10px rgb(184 182 182);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.day h3
+{
+    font-size: 40px;
+}
+.logout
+{
+    justify-content: flex-end;
+    display: flex;
+    position: relative;
+    #logout{
+        padding: 10px;
+    position: relative;
+    width: max-content;
+    right: 48px;
+    span{
+        font-size: 30px;
+    }
+    &:hover{
+        color:red;
+    }
     }
 }

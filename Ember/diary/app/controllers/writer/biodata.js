@@ -5,10 +5,36 @@ import { tracked } from '@glimmer/tracking';
 export default class WriterBiodataController extends Controller {
   @service('data') data;
   @tracked gender;
-
+  @service router;
+  @action
+  async logout() {
+    let type = 'get';
+    let url = this.data.domain + '/session';
+    let data = 'type=logout';
+    let processData = true;
+    let contentType;
+    let response = await this.data.ajax(
+      type,
+      url,
+      data,
+      processData,
+      contentType,
+      true
+    );
+    if (response == 'success') {
+      this.data.userId=null;
+      this.router.transitionTo('login');
+    }
+  }
   @action
   setGender(event) {
-    this.gender = event.target.value;
+    this.data.bioData.gender = event.target.value;
+    console.log(event.target.value);
+    console.log(this.data.bioData.gender);
+  }
+  @action
+  assignGender() {
+    $('#gender').val(this.data.bioData.gender).change();
   }
   @action
   update() {
@@ -20,17 +46,21 @@ export default class WriterBiodataController extends Controller {
       gender: this.data.bioData.gender,
       phoneno: this.data.bioData.phoneno,
     };
-    $.ajax({
-      type: 'post',
-      url: 'http://' + this.data.host + '/Diary/updatebio',
-      data: JSON.stringify(json),
-      success: (response) => {
-        console.log(response + 'responses');
+    console.log('happening');
+    let type = 'post';
+    let url =
+      this.data.domain +
+      '/userdetails?type=updatebio&userid=' +
+      this.data.userId;
+    let data = JSON.stringify(json);
+    let processData;
+    let contentType;
+    this.data.ajax(type, url, data, processData, false).then((response) => {
+      console.log(this.data.bioData);
+      $('.save-status').toggleClass('save-status-toggle');
+      setTimeout(() => {
         $('.save-status').toggleClass('save-status-toggle');
-        setTimeout(() => {
-          $('.save-status').toggleClass('save-status-toggle');
-        }, 2000);
-      },
+      }, 2000);
     });
   }
 }

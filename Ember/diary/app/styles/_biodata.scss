@@ -1,5 +1,23 @@
+.save-status {
+    height: 30px;
+    padding: 5px 10px;
+    background: #afcaaf;
+    color: #eae8e8;
+    position: relative;
+    opacity: 0;
+    top: 0px;
+    transition: ease 1s;
+}
+
 .bio {
     position: relative;
+
+    .option {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+
+    }
 
     .profile {
         justify-content: center;
@@ -42,6 +60,22 @@
         height: 80%;
         width: 40%;
         border: 1px solid #000000;
+        position: relative;
+        background: #fff;
+        border-bottom: none;
+
+        .content-close {
+
+            position: relative;
+            top: 10px;
+            right: 10px;
+            width: 200%;
+
+            &:hover {
+                color: red;
+            }
+
+        }
 
     }
 
@@ -65,4 +99,22 @@
         justify-content: space-around;
 
     }
+}
+
+#update {
+    background: #bdb7b7;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #f8f5f5fc;
+
+    &:hover {
+        background: #8d8c8c;
+
+    }
+}
+.save-status-toggle
+{
+    opacity: 0.8;
+    top: 40px;
+    transition: ease 1s;
 }

@@ -26,4 +26,30 @@ export default class ProfileComponent extends Component {
       fr.readAsDataURL(files[0]);
     }
   }
+  @action
+  getBioData() {
+    console.log('happening');
+    let type = 'post';
+    let url = this.data.domain + '/userdetails';
+    let data = 'type=getbio&userid=' + this.data.userId;
+    let processData = true;
+    let contentType;
+    this.data
+      .ajax(type, url, data, processData, contentType, true)
+      .then((response) => {
+        this.data.bioData = JSON.parse(response);
+        console.log(this.data.bioData);
+        this.setProfilePic();
+      });
+  }
+  @action
+  setProfilePic() {
+    if (this.data.bioData.displayPicture) {
+      this.data.profilePic =
+        this.data.domain + '/assets/profile/' + this.data.userId + '.jpg';
+      return;
+    }
+    this.data.profilePic =
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+  }
 }

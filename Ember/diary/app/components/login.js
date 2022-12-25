@@ -53,14 +53,19 @@ export default class LoginComponent extends Component {
         contentType,
         true
       );
-      console.log(response + 'jdfasj resdifpjfds');
-      if (response.trim() == 'success') {
-        this.router.transitionTo('writer');
-        console.log(response + 'hangin from login');
-        // $(".password-form").slideDown();
-      }
-      if (response == 'notfound') {
-        this.router.transitionTo('login');
+      this.data.userId = JSON.parse(response).userId;
+      if (this.data.userId) {
+        this.router.transitionTo('writer.view',this.data.today);
+      } 
+      else {
+        $('.module').animate(
+          {
+            width: 'toggle',
+            opacity: 'toggle',
+          },
+          'fast'
+        );
+        $('#login-info').text('Incorrect Username or  password');
       }
     }
   }

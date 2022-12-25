@@ -1,21 +1,55 @@
 <div class="nav-bar">
-
+    {{this.setToday}}
+    {{this.setYesterday}}
+     {{this.lastTwo}}
     <ul class="nav flex-column">
-        <LinkTo class="link" @route="writer.view" @model="2022-12-12" id="view-link"><span class="material-symbols-outlined">
+        <LinkTo class="link" @route="writer.view" @model={{this.data.today}} id="view-link"><span class="material-symbols-outlined">
                 note
             </span>viewer</LinkTo>
         <LinkTo class="link" @route="writer.stared"><span class="material-symbols-outlined">
                 stars
             </span>stared</LinkTo>
-        <button class="link" type="button"><span class="material-symbols-outlined">
+        <button class="link" type="button" onclick={{action 'show'}}><span class="material-symbols-outlined">
                calendar_month
             </span>filter
         </button>
+
             <div class="filter">
-                <LinkTo class="link" @route="writer.view" @model={{this.data.today}}>Today</LinkTo>
-                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>Yesterday</LinkTo>
-                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>The Day</LinkTo>
-                <LinkTo class="link" @route="writer.view" @model={{this.data.yesterday}}>Yesterday</LinkTo>
+                <LinkTo class="link" @route="writer.view" @model={{this.today}}>Today</LinkTo>
+                <LinkTo class="link" @route="writer.view" @model={{this.yesterday}}>Yesterday</LinkTo>
+                {{#each this.lastTwoDates as |last|}}
+                <LinkTo class="link" @route="writer.view" @model={{last}}>{{last}}</LinkTo>
+        {{/each}}
+                 <div class="link">
+        <select size="1" name="month" id="month" {{on 'change' this.searchDates}}>
+            <option value="month">Month</option>
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        </div>
+        <div class="link">
+        <select name="year" id="year" {{on 'change' this.searchDates}}>
+            <option value="year">Year</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+        </select>
+        </div>
+        <div class="link">
+            <Input @type="date" {{on 'change' this.goTo}}/>
+        </div>
             </div>
            
   

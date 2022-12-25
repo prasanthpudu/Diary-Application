@@ -1,6 +1,7 @@
 package com.diary.server.operation;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -42,6 +43,7 @@ public class Controller {
         values.add(connection.setString(activityId));
         values.add(connection.setString(userId));
         values.add(connection.setString(time));
+        String secretKey = getSecretKey(userId, key);
         if (id == null) {
             values.add(connection.setString(activityId));
             values.add(connection.setString("create"));
@@ -53,7 +55,7 @@ public class Controller {
             // String query = "INSERT INTO activity VALUES('" + activityId + "','" + userId + "','" + time + "','"
             //         + activityId + "','create')";
             // System.out.println("query :" + query);
-            status = createNew(json, time, activityId, key);
+            status = createNew(json, time, activityId, secretKey);
         } else {
             values.add(connection.setString(id));
             String query = "INSERT INTO activity VALUES('" + activityId + "','" + userId + "','" + time + "','" + id
@@ -62,7 +64,7 @@ public class Controller {
 
             System.out.println("query :" + query);
             connection.Insert(tableName, null, values);
-            status = updateText(json, id, key);
+            status = updateText(json, id,secretKey );
         }
         if (status == 200) {
             return "saved";
@@ -99,32 +101,39 @@ public class Controller {
 
     public int updateText(Text text, String id, String key) throws Exception {
         String tableName = "texts";
-
-        String titleEncrypted =message(text.getTitle(), key,text.getUserId(),ENCRYPT_MODE);
-        String textEncrypted = message(text.getText(), key,text.getUserId(),ENCRYPT_MODE);
+        String titleEncrypted =message(text.getTitle(),key,text.getUserId(),ENCRYPT_MODE);
+        String textEncrypted = message(text.getText(),key,text.getUserId(),ENCRYPT_MODE);
         String mediaEncypted = message(text.getMedia(), key,text.getUserId(),ENCRYPT_MODE);
         Map<String, String> updateColumns = new LinkedHashMap<String, String>();
         updateColumns.put("title", connection.setString(titleEncrypted));
         updateColumns.put("text", connection.setString(textEncrypted));
 
         Map<String, String> constrains = new LinkedHashMap<String, String>();
-        constrains.put("id", connection.setString(id));
+       
         List<String> conditions = new ArrayList<String>();
+        List<String> booleans = new ArrayList<String>();
+        constrains.put("id", connection.setString(id));
         conditions.add("=");
+        constrains.put("Date(time)", "CURRENT_DATE");
+        conditions.add("=");
+        booleans.add("AND");
         // String query ="UPDATE texts SET
         // title='"+text.getTitle()+"',text='"+text.getText()+"' WHERE id='"+id+"'";
         // System.out.println("query :"+query);
 
-        int status = connection.update(tableName, updateColumns, constrains, conditions, null);
+        int status = connection.update(tableName, updateColumns, constrains, conditions, booleans);
         updateColumns.clear();
+        conditions.clear();
+        constrains.clear();
+        constrains.put("id", connection.setString(id));
+        conditions.add("=");
         tableName = "medias";
         updateColumns.put("media", connection.setString(mediaEncypted));
-        status = connection.update(tableName, updateColumns, constrains, conditions, null);
+        status = connection.update(tableName, updateColumns, constrains, conditions,null);
         return status;
     }
-
-    public static String message(String message, String key, String userId, String mode) throws Exception {
-        String result = null, tableName = "encryption";
+    public String getSecretKey(String userId,String key) throws Exception{
+        String tableName = "encryption";
         List<String> columns = new ArrayList<String>();
         Map<String, String> constrains = new LinkedHashMap<String, String>();
         List<String> conditions = new ArrayList<String>();
@@ -134,8 +143,14 @@ public class Controller {
         ResultSet set = connection.get(tableName, columns, constrains, conditions, null, null);
         set.next();
         String encryptedKey = set.getString(2);
-        System.out.println("encryptedKey: " + encryptedKey+"keu"+key);
+        System.out.println(encryptedKey);
         String secretKey = EncryptDecrypt.decrypt(encryptedKey, key);
+        return secretKey;
+    }
+    public static String message(String message, String secretKey, String userId, String mode) throws Exception {
+        
+        String result=null;
+        
         if (mode.equals("encrypt")) {
             result = EncryptDecrypt.encrypt(message, secretKey);
 

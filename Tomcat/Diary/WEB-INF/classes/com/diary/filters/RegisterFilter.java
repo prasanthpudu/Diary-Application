@@ -23,6 +23,7 @@ public class RegisterFilter implements Filter {
         System.out.println("executing one");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
+      
         List<String> params = new ArrayList<String>();
         params.add(req.getParameter("username"));
         params.add(req.getParameter("password"));
@@ -40,8 +41,11 @@ public class RegisterFilter implements Filter {
         }
         else
         {
+            resp.addHeader("Access-Control-Allow-Origin", AppVariables.HOST);
+            resp.addHeader("Access-Control-Allow-Credentials", "true");
             System.out.println("executing else");
             resp.getWriter().write("invalid");
+        
         }
     }
 }

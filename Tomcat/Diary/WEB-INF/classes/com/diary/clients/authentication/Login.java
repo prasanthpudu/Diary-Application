@@ -19,9 +19,8 @@ public class Login extends HttpServlet {
         String type = req.getParameter("type");
 
         if (type.equals("check")) {
-            int status = Controller.getController().check(userId);
-            if (status == 200) {
-                resp.setStatus(status);
+            String status = Controller.getController().check(userId);
+            if (status != null) {
                 resp.getWriter().write("success");
             } else {
                 resp.getWriter().write("notfound");
@@ -37,11 +36,11 @@ public class Login extends HttpServlet {
                 for (Cookie cookie : cookies) {
                     resp.addCookie(cookie);
                 }
-               
-                resp.getWriter().println("success");
+                String response = "{\"userId\":\""+userId + "\"}";
+                resp.getWriter().write(response);
                 return;
             }
-            resp.getWriter().println("failure");
+            resp.getWriter().write("[]");
         }
 
     }

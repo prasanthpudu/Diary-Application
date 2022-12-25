@@ -9,10 +9,13 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
+import com.diary.AppVariables;
+
 public class DataBase {
     private static DataBase object = null;
 
     private DataBase() {
+        System.out.println("jdbc:postgresql://"+AppVariables.IP+":5432/diary");
     }
 
     public synchronized static DataBase getDataBaseConnection() {
@@ -67,7 +70,7 @@ public class DataBase {
         }
         query += ") ";
         System.out.println("statement: " + query);
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diary", "postgres",
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://"+AppVariables.IP+":5432/diary", "postgres",
                 "0")) {
             Statement statement = connection.createStatement();
             statement.execute(query);
@@ -97,7 +100,7 @@ public class DataBase {
             i++;
         }
         System.out.println("statement: " + query);
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diary", "postgres",
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://"+AppVariables.IP+":5432/diary", "postgres",
                 "0")) {
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
@@ -120,15 +123,17 @@ public class DataBase {
                 query += " SET " + column.getKey() + "=" + column.getValue();
                 first=false;
             } else {
-                query += " SET " + column.getKey() + "=" + column.getValue();
+                query += "," + column.getKey() + "=" + column.getValue();
             }
             i++;
         }
+        i=0;
         first = true;
         for (Map.Entry<String, String> column : contrains.entrySet()) {
             if (first) {
                 query += " WHERE " + column.getKey() + conditions.get(i) + column.getValue() + " "
                         + (booleans != null && booleans.size() > i ?" "+booleans.get(i)+" ":"");
+                        first=false;
               
             } else {
                 query += " " + column.getKey() + conditions.get(i)  + column.getValue() + " "
@@ -138,7 +143,7 @@ public class DataBase {
         }
 
         System.out.println("statement: " + query);
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diary", "postgres",
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://"+AppVariables.IP+":5432/diary", "postgres",
                 "0")) {
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
@@ -180,7 +185,7 @@ public class DataBase {
         }
         query+=(optional!=null?" "+optional+" ":"");
         System.out.println("statement: " + query);
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diary", "postgres",
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://"+AppVariables.IP+":5432/diary", "postgres",
                 "0")) {
             Statement statement = connection.createStatement();
             ResultSet set = statement.executeQuery(query);

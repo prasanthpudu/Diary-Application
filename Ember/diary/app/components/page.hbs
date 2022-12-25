@@ -1,6 +1,7 @@
 <div class="outer">
     <div class="page">
         <div class="head-option"></div>
+        {{#if this.data.edit}}
          <form class="upload-action">
                 <div id="button-video" onchange={{action 'fileAction'}}>
                     <input id="video-input" accept="video/mp4,video/x-m4v" type="file" multiple/>
@@ -32,6 +33,7 @@
                 </div>
                
          </form>
+         {{/if}}
         <div class="container" >
             <div class="close">
                 <button id="page-close" onclick={{action 'didAction'}} type="button">
@@ -42,15 +44,15 @@
                
             </div>
             <div class="content" id={{this.data.id}}>
-            <div class="title" placeholder="Title" contenteditable={{this.data.edit}}>
-                {{{this.data.title}}}
+            <div class="title" id="content-title" placeholder="Title" contenteditable={{this.data.edit}}>
+                
             </div>
-            <div class="text" placeholder="Text" contenteditable={{this.data.edit}}>
-               {{{this.data.text}}}
+            <div class="text" id="content-text" placeholder="Text" contenteditable={{this.data.edit}}>
+             
             </div>
             </div>
-            <div class="media" id="media">
-                {{{this.data.media}}}
+            <div class="media"  id="media">
+               
             </div>            
         </div>
     </div>

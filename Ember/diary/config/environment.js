@@ -4,7 +4,7 @@ module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'diary',
     environment,
-    rootURL: '/',
+    rootURL: '/Diary',
     locationType: 'history',
     EmberENV: {
       FEATURES: {

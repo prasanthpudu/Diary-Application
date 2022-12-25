@@ -11,6 +11,16 @@ public class User {
     private String email;
     private String gender;
     private String phoneno;
+    private String profilePic;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+    public String getProfilePic() {
+        return profilePic;
+    }
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
     public String getEmail() {
         return email;
     }
@@ -36,7 +46,7 @@ public class User {
         return phoneno;
     }
     public boolean setPhoneno(String phoneno) {
-        if(phoneno.matches("\\d{5,12}")){
+        if(phoneno.matches("^\\d{5,12}$")){
             this.phoneno = phoneno;
             return true;
         }
@@ -46,12 +56,8 @@ public class User {
         return userId;
     }
     public boolean setUserId(String userId) {
-        if(userId.matches("^[a-z0-9]+[@_a-z0-9]*")){
-            this.userId = userId;
-            return true;
-        }
-        return false;
-        
+        this.userId=userId;
+        return true;
     }
     public String getUserName() {
         return userName;
@@ -77,6 +83,12 @@ public class User {
         day = Integer.parseInt(dateOfBirth.substring(8));
 
             this.dateOfBirth = LocalDate.of(year, month, day);
+            LocalDate today = LocalDate.now();
+            System.out.println(this.dateOfBirth.compareTo(today));
+            if(this.dateOfBirth.compareTo(today)>0){
+                this.dateOfBirth = null;
+                return false;
+            }
             return true;
         }
         catch (Exception e)

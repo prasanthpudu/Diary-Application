@@ -79,20 +79,21 @@ public class Controller {
             values.add(connection.setString(phoneNo));
             values.add(connection.setString(userId));
             connection.Insert(tableName, null, values);
-            assainKey(password, securityquestion,userId);
+            String encryptionKey = EncryptDecrypt.generateKey();
+            assainKey(password, securityquestion,userId,encryptionKey);
             return userId;
         }
         return null;
 
     }
-    public void assainKey(String password,String securityQuestion,String userId) throws Exception{
+    public void assainKey(String password,String securityQuestion,String userId,String encryptionKey) throws Exception{
         String key = Hash.toSHA1(password, "MD5");
         String recoverKey = Hash.toSHA1(securityQuestion, "MD5");
        
-        String encrytionKey = EncryptDecrypt.generateKey();
-        String encryptedEncryptionKey= EncryptDecrypt.encrypt(encrytionKey, key);
-        String recoveryEncryptionKey= EncryptDecrypt.encrypt(encrytionKey, recoverKey);
-        System.out.println("key: " + key + " recover key: " + recoverKey+"encrytionKey"+encrytionKey);
+        
+        String encryptedEncryptionKey= EncryptDecrypt.encrypt(encryptionKey, key);
+        String recoveryEncryptionKey= EncryptDecrypt.encrypt(encryptionKey, recoverKey);
+        System.out.println("key: " + key + " recover key: " + recoverKey+"encrytionKey"+encryptionKey);
         String tableName = "encryption";
         List<String> values = new ArrayList<String>();
         values.add(connection.setString(userId));
@@ -100,7 +101,7 @@ public class Controller {
         values.add(connection.setString(recoveryEncryptionKey));
         connection.Insert(tableName, null, values);
     }
-    public int check(String userId) {
+    public String check(String userId) {
         String tableName = "users";
         List<String> columns = new ArrayList<String>();
         Map<String, String> contrains = new LinkedHashMap<String, String>();
@@ -116,12 +117,12 @@ public class Controller {
         ResultSet set = connection.get(tableName, columns, contrains, conditions, booleans, null);
         try {
             if (set.next()) {
-                return 200;
+                return set.getString(3);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 404;
+        return null;
     }
 
     public String login(String userId, String password) {
@@ -162,14 +163,17 @@ public class Controller {
         Map<String, String> constrains = new LinkedHashMap<String, String>();
         List<String> conditions = new ArrayList<String>();
         String tableName = "userdetails";
-        updateColumns.put("name", user.getUserName());
-        updateColumns.put("dateofbirth", user.getDateOfBirth());
-        updateColumns.put("gender", user.getGender());
-        updateColumns.put("location", user.getLocation());
-        updateColumns.put("phoneno", user.getPhoneno());
+        updateColumns.put("name", user.getUserName()!=null?"'"+user.getUserName()+"'":"name");
+        updateColumns.put("dateofbirth",(user.getDateOfBirth()!=null?"'"+user.getDateOfBirth()+"'":"dateofbirth"));
+        updateColumns.put("gender", (user.getGender()!=null?"'"+user.getGender()+"'":"gender"));
+        updateColumns.put("location", (user.getLocation()!=null?"'"+user.getLocation()+"'":"location"));
+        updateColumns.put("phoneno", (user.getPhoneno()!=null?"'"+user.getPhoneno()+"'":"phoneno"));
+        updateColumns.put("profilepic", (user.getProfilePic()!=null?"'"+user.getProfilePic()+"'":"profilepic"));
         for (int i = 0; i < 5; i++) {
             conditions.add("=");
         }
+        constrains.put("userid",connection.setString(user.getUserId()));
+        conditions.add("=");
         int status = connection.update(tableName, updateColumns, constrains, conditions, null);
         return status;
     }
@@ -192,6 +196,7 @@ public class Controller {
                 map.put("location", set.getString(3));
                 map.put("gender", set.getString(4));
                 map.put("phoneno", set.getString(5));
+                map.put("displayPicture",set.getBoolean(7)?"true":"");
             }
             return mapper.writeValueAsString(map);
         } catch (SQLException | JsonProcessingException e) {
@@ -199,5 +204,38 @@ public class Controller {
         }
         return "[]";
     }
-
+    public String changePassword(String userId,String securityKey,String newPassword) throws Exception{
+        String key = Hash.toSHA1(securityKey, "MD5");
+        String tableName = "encryption";
+        List<String> columns = new ArrayList<String>();
+        Map<String, String> constrains = new LinkedHashMap<String, String>();
+        userId = check(userId);
+        if(userId ==null){
+            return "failed";
+        }
+        List<String> conditions = new ArrayList<String>();
+        columns.add("*");
+        constrains.put("userid",connection.setString(userId));
+        conditions.add("=");
+       ResultSet set= connection.get(tableName, columns, constrains,conditions, null, null);
+        if(set.next()){
+            
+            String secretKey;
+            try {
+                secretKey = EncryptDecrypt.decrypt(set.getString(3),key);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "failed";
+            }
+            connection.delete(tableName, constrains, conditions,null);
+            assainKey(newPassword, securityKey, userId, secretKey);
+            Map<String, String> updates = new LinkedHashMap<String, String>();
+            newPassword=Hash.toSHA1(newPassword,"SHA-1");
+            updates.put("password", connection.setString(newPassword));
+            connection.update("users", updates, constrains, conditions, null);
+            return "success";
+        }
+        return "failed";
+    }
+ 
 }

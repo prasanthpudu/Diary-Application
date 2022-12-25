@@ -1,8 +1,14 @@
 <div class="cropper d-flex">
     <div class="content">
+        <button id="content-close" onclick={{action 'close'}} type="button">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
         <div class="image-frame">
             <img id="preview" src="" alt=""/>
         </div>
+
         <div class="options">
             <button onclick={{action 'didAction'}} id="crop" type="button">
                 crop

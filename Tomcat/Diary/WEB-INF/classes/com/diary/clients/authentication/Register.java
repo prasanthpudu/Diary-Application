@@ -5,6 +5,7 @@ import com.diary.AppVariables;
 import com.diary.server.authentication.Controllers.Controller;
 import com.diary.server.authentication.Controllers.SessionController;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +29,15 @@ public class Register extends HttpServlet {
         }
         if(userId!=null){
             SessionController.getSessionController().removeCookie(req.getCookies());
-            SessionController.getSessionController().addCookie(req.getSession().getId(),userId,password);
+            Cookie cookies[] = SessionController.getSessionController().addCookie(req.getSession().getId(), userId,password);
+            for (Cookie cookie : cookies) {
+                resp.addCookie(cookie);
+            }
+           
+            resp.getWriter().println("{\"userId\":\""+userId + "\"}");
+            return;
+        }else{
+            resp.getWriter().write("[]");
         }
         } 
     }

@@ -10,7 +10,14 @@ export default class WriterViewController extends Controller {
   @action
   get() {
     let today = this.model.split('-');
+    let actionType;
     this.date = today[2] + '-' + today[1] + '-' + today[0];
+    console.log(this.data.today + '' + this.model + 'acitontype cheing');
+    if (this.data.today == this.model) {
+      actionType = 'edit';
+    } else {
+      actionType = 'view';
+    }
     console.log('happening');
     let type = 'get';
     let url = this.data.domain + '/search';
@@ -19,7 +26,8 @@ export default class WriterViewController extends Controller {
       this.data.userId +
       '&date=' +
       this.date +
-      '&actiontype=view';
+      '&actiontype=' +
+      actionType;
     let processData = true;
     let contentType;
     this.data
@@ -28,17 +36,6 @@ export default class WriterViewController extends Controller {
         let json = JSON.parse(response);
         this.data.notes = json;
         console.log(this.data.newNote);
-        if(this.data.newNote){
-          let note = {
-            title: '',
-            text: '',
-            starred: false,
-            id: '',
-          };
-          console.log('executed newnote');
-          this.data.notes = [note, ...this.data.notes];
-          this.data.newNote = false;
-        }
       });
   }
 }

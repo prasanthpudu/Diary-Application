@@ -18,4 +18,5 @@ Router.map(function () {
   this.route('write', function () {});
   this.route('login');
   this.route('register');
+  this.route('forgotpassword');
 });

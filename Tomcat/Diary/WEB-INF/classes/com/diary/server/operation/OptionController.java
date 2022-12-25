@@ -43,15 +43,16 @@ public class OptionController {
         // VALUES('"+activityId+"','"+userId+"','"+time+"','"+noteId+"','delete')";
         // System.out.println("query"+query);
         connection.Insert(tableName, null, values);
-        tableName = "texts";
-        constrains.put("userid", connection.setString(userId));
-        constrains.put("noteid", connection.setString(noteId));
+        
+        tableName = "medias";
+        constrains.put("id", connection.setString(noteId));
+    
         conditions.add("=");
-        conditions.add("=");
-        booleans.add("AND");
         // query ="DELETE FROM texts WHERE userid ='"+userId+"' AND id='"+noteId+"'";
         // System.out.println("query :"+query);
         int status = connection.delete(tableName, constrains, conditions, booleans);
+         status = connection.delete(tableName, constrains, conditions, booleans);
+
         return status;
     }
 
@@ -64,36 +65,14 @@ public class OptionController {
         List<String> booleans = new ArrayList<String>();
         updateColumns.put("stared", "NOT stared");
         constrains.put("userid", connection.setString(userId));
-        constrains.put("id", noteId);
+        constrains.put("id", connection.setString(noteId));
         conditions.add("=");
         conditions.add("=");
         booleans.add("AND");
-
         // String query = "UPDATE texts SET stared = NOT stared WHERE userid
         // ='"+userId+"' AND id='"+noteId+"'";
         // System.out.println(query);
         int status = connection.update(tableName, updateColumns, constrains, conditions, booleans);
         return status;
-    }
-
-    public String message(String message, String key, String userId, String mode) throws Exception {
-        String result = null, tableName = "encryption";
-        List<String> columns = new ArrayList<String>();
-        Map<String, String> constrains = new LinkedHashMap<String, String>();
-        List<String> conditions = new ArrayList<String>();
-        columns.add("*");
-        constrains.put("userId", userId);
-        conditions.add("=");
-        ResultSet set = connection.get(tableName, columns, constrains, conditions, conditions, null);
-        set.next();
-        String encryptedKey = set.getString(2);
-        String secretKey = EncryptDecrypt.decrypt(encryptedKey, key);
-        if (mode.equals("encrypt")) {
-            result = EncryptDecrypt.encrypt(message, secretKey);
-
-        } else if (mode.equals("decrypt")) {
-            result = EncryptDecrypt.decrypt(message, secretKey);
-        }
-        return result;
     }
 }

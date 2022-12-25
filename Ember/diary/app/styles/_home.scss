@@ -30,6 +30,27 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
+    .gender-div{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+    .gender{
+      padding: 5px 10px ;
+      outline: none;
+      margin-bottom: 10px;
+    }
+    .info{
+      margin: 0px;
+      padding: 0px;
+      margin-top: -20px;
+      float: right;
+      color: red;
+      margin-right: 10px;
+    }
+    #password::-webkit-input-placeholder{
+      font-size: 10.7px;
+    }
 }
 /* Form Module */
 .form-module {
@@ -39,6 +60,10 @@ body {
   width: 100%;
   border-top: 5px solid $accent;
   box-shadow: 0 0 3px rgba($black, .3);
+  #login-info{
+    color: red;
+    margin-top: 5px;
+  }
   .toggle {
     cursor: pointer;
     position: absolute;
@@ -135,5 +160,17 @@ body {
       color: $dark-gray;
       text-decoration: none;
     }
+  }
+}
+.forgot 
+{
+  .form-module
+  {
+    margin-top: 604px
+  }
+  height: max-content;
+  .form
+  {
+    
   }
 }

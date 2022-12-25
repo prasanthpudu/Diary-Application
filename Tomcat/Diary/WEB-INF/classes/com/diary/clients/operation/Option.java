@@ -19,6 +19,7 @@ public class Option extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("servlet execuitng");
         String type = req.getParameter("type");
+
         if (type.equals("save")) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(req.getInputStream()));
             String body = reader.readLine();
@@ -42,7 +43,7 @@ public class Option extends HttpServlet {
             int status=400;
             try {
                 String response= Controller.getController().doSave(json,key);
-                resp.getWriter().write("\"result\":\""+response+"\"");
+                resp.getWriter().write("saved");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -54,9 +55,14 @@ public class Option extends HttpServlet {
             String noteId = req.getParameter("id");
             resp.setStatus(OptionController.getOptionController().deleteNote(userId, noteId));
         }
-        System.out.println("execuitng");
-        String userId = req.getParameter("userid");
-        String noteid = req.getParameter("id");
-        resp.setStatus(OptionController.getOptionController().starNote(userId, noteid));
+        if(type.equals("starnote")){
+            String userId = req.getParameter("userid");
+            String noteid = req.getParameter("id");
+        
+            int status=OptionController.getOptionController().starNote(userId, noteid);
+            if(status == 200){
+                resp.getWriter().write("success");
+            }
+        }
     }
 }

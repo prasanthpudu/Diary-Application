@@ -39,10 +39,19 @@ public class Search extends HttpServlet {
         if (type.equals("searchbetween")) {
             String startDate = req.getParameter("start");
             String endDate = req.getParameter("end");
-            resp.getWriter().write(SearchController.getSearchController().searchBetween(userId, startDate, endDate));
+            try {
+                resp.getWriter().write(SearchController.getSearchController().searchBetween(userId, startDate, endDate,key));
+            } catch (Exception e) {
+                
+                e.printStackTrace();
+            }
         }
         if (type.equals("stared")) {
-            resp.getWriter().write(SearchController.getSearchController().SearchStared(userId));
+            try {
+                resp.getWriter().write(SearchController.getSearchController().SearchStared(userId,key));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (type.equals("getnotes")) {
             String date = req.getParameter("date");

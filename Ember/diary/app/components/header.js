@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 export default class HeaderComponent extends Component {
   @service('data') data;
-  toggled = false;
+  toggled = true;
   @action
   didAction(event) {
     if (this.toggled) {

@@ -1,10 +1,7 @@
 {{page-title "Stared"}}
 {{this.onLoad}}
 <div class="stared">
-    <div class="editer-container">
        {{#each this.data.notes as |text|}}
-        <Note @id={{text.id}} @title={{text.title}} @text={{text.text}} @date={{text.time}} @stared={{text.stared}}/>
-        
+        <Note @id={{text.id}}  @media={{text.media}}  @title={{text.title}} @text={{text.text}} @date={{text.time}} @stared={{text.stared}} @editable={{editable text.time this.data.today}}/>
         {{/each}}
-    </div>
 </div>

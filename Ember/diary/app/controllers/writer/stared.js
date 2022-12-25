@@ -5,21 +5,15 @@ export default class WriterStaredController extends Controller {
   @service('data') data;
   @action
   onLoad() {
-    $.ajax({
-      type: 'get',
-      url: 'http://' + this.data.host + '/Diary/getstared',
-      data: 'userid=' + this.data.userId,
-      success: (response) => {
-        let json = JSON.parse(response);
-        console.log(response);
-        this.data.notes = json;
-        console.log('notes');
-      },
-      statusCode: {
-        404: () => {
-          console.log('no records');
-        },
-      },
-    });
+    let type = 'get';
+    let url = this.data.domain + '/search';
+    let data = 'type=stared&userid=' + this.data.userId;
+    let processData = true;
+    let contentType;
+    this.data
+      .ajax(type, url, data, processData, contentType, true)
+      .then((response) => {
+        this.data.notes = JSON.parse(response);
+      });
   }
 }

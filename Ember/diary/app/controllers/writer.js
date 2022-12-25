@@ -84,22 +84,7 @@ export default class WriterController extends Controller {
         console.log(this.lastTwoDates);
       });
   }
-  @action
-  getBioData() {
-    console.log('happening');
-    let type = 'post';
-    let url = this.data.domain + '/userdetails';
-    let data = 'type=getbio&userid=' + this.data.userId;
-    let processData = true;
-    let contentType;
-    this.data
-      .ajax(type, url, data, processData, contentType, true)
-      .then((response) => {
-        this.data.bioData = JSON.parse(response);
-        console.log(this.data.bioData);
-      });
-    
-  }
+
   @action
   searchDates(event) {
     let value = $(event.target).val();

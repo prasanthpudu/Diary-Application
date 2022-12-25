@@ -1,10 +1,14 @@
 package com.diary.server.operation;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tomcat.util.http.fileupload.FileItem;
+
+import com.diary.models.User;
+import com.diary.server.authentication.Controllers.Controller;
 
 public class UploadController {
     private static UploadController object = null;
@@ -20,7 +24,7 @@ public class UploadController {
         return object;
     }
 
-    public void uploadFile(List<FileItem> items, String userId, String type,  String date) {
+    public void uploadFile(List<FileItem> items, String userId, String type,  String date) throws IOException {
         Iterator<FileItem> iterator = items.iterator();
         while (iterator.hasNext()) {
             FileItem item = (FileItem) iterator.next();
@@ -31,11 +35,15 @@ public class UploadController {
                 File path = null;
                 switch (type) {
                     case "profile":
-                        path = new File("/Aapache-tomcat-10.0.27/webapps/Diary/assets/" + userId + "/profile/");
+                        User user = new User();
+                        user.setUserId(userId);
+                        user.setProfilePic("true");
+                        path = new File("../webapps/Diary/assets/profile/"+fileName+".jpg");
+                        Controller.getController().UpdateBio(user);
                         break;
                     case "media":
                         System.out.println("filetype"+fileType);
-                        path = new File("/Aapache-tomcat-10.0.27/webapps/Diary/assets/" + userId + "/" + type + "/"+fileType+"/"
+                        path = new File("../webapps/Diary/assets/" + userId + "/" + type + "/"+fileType+"/"
                                 + date + "/" + fileName);
                         break;
                 }
@@ -43,7 +51,6 @@ public class UploadController {
                     boolean status = path.mkdirs();
                 }
 
-    
                 System.out.println(path.getAbsolutePath());
                 try {
                     item.write(path);

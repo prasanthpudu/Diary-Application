@@ -4,10 +4,9 @@
          <div class="form">
             <h2>Login to your account</h2>
             <form>
-                <Input id="userid" type="text" @value={{this.data.userId}} placeholder="email/userid" />
+                <Input id="userid" type="text" @value={{this.data.tempId}} placeholder="email/userid" />
                 <button id="check" type="submit" onclick={{action 'login'}}>Login/Register</button>
             </form>
-           
             <p id="login-info"></p>
         </div>
     </div>
@@ -16,11 +15,12 @@
          <div class="form">
             <h2>Login to your account</h2>
            <form >
-                <input id="password" type="password" placeholder="Password" />
-                <button  id="login" type="submit" onclick={{action 'login'}}>Login/Register</button>
+                <input id="password" type="password"   />
+                <LinkTo @route="forgotpassword" style="color: rgb(57, 160, 223);">forgot password?</LinkTo>
+                <button  id="login" type="submit" onclick={{action 'login'}}>Login</button>
+               
             </form>
            
-            <p id="login-info"></p>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 
 <div class="note" {{@note}} id={{@id}}>
+    <h5>{{substring @date 0 19}}</h5>
     <div class="title" contenteditable={{@edit}}>
         {{{@title}}}
     </div>
@@ -10,27 +11,28 @@
         
     </div>
     <div class="options">
-        <button onclick={{action 'didAction'}} class="option" id="option-star" type="button"><span class="material-symbols-outlined">
+        <button onclick={{action 'option'}} class="option {{if @stared "star-note"}}" id="option-star" type="button"><span class="material-symbols-outlined">
                 star
             </span></button>
-        <button class="option" id="option-media" type="button">
-            <span class="material-symbols-outlined">
-                add_photo_alternate
-            </span>
-        </button>
+      
         <button onclick={{action 'didAction'}} class="option" id="option-view" type="button"><span class="material-symbols-outlined">
                 visibility
             </span></button>
+        {{#if @editable}}
         <button onclick={{action 'didAction'}} class="option" id="option-edit" on type="button">
             <span class="material-symbols-outlined">
                 edit
             </span>
         </button>
-        <button onclick={{action 'didAction'}}  class="option" id="option-delete" type="button">
+        {{/if}}
+        {{#if @view}}
+
+        <button onclick={{action 'option'}}  class="option" id="option-delete" type="button">
             <span class="material-symbols-outlined">
                 delete
             </span>
         </button>
+        {{/if}}
     </div>
 </div>
 

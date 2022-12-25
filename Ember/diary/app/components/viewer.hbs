@@ -1,6 +1,6 @@
 <div class="viewer">
      
       {{#each this.data.notes as |note|}}
-      <Note @title={{note.title}} @text={{note.text}}  @id={{note.id}} @media={{note.media}}/>
+      <Note @title={{note.title}} @stared={{note.stared}} @text={{note.text}}  @id={{note.id}} @media={{note.media}} @view={{true}} @date={{note.time}} @editable={{editable note.time this.data.today}}/>
       {{/each}}
 </div>

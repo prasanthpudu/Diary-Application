@@ -5,21 +5,28 @@
         </div>
          <div class="form register-form">
             <h2>Create an account</h2>
-            <form>
-               
-                <Input @type="text" @value={{this.userName}} placeholder="Username" pattern="^[a-zA-Z]+$" required/>
-                <Input @type="text"@value={{this.location}} placeholder="Location" pattern="^[a-zA-Z]+$" />
-                <Input @type="text" @value={{this.phoneNo}} placeholder="Phone Number" pattern="^\d{5,12}$"/>
+            <form class="needs-validation">
                 
-                <label for="gender">Gender</label><select name="gender" id="gender" class="input" value={{this.gender}} {{on 'change' this.setGender}} >
+                <Input @type="text" @value={{this.userName}} onchange={{action 'checkName'}} placeholder="Username" required/>
+                <p id="username-info" class="info"></p>
+                <Input @type="text"@value={{this.location}}  onchange={{action 'checkLocation'}} placeholder="Location" />
+                <p id="location-info" class="info"></p>
+                <Input @type="text" @value={{this.phoneNo}}  onchange={{action 'checkPhoneNo'}} placeholder="Phone Number"/>
+                <p id="phoneno-info" class="info"></p>
+                <div class="gender-div">
+                  <label for="gender" class="gender">Gender</label><select name="gender" id="gender" class="input gender" value={{this.gender}} {{on 'change' this.setGender}} >
                   <option value="default">Select</option>
                   <option value="Male">Male</option>
-                  <option value="Male">female</option>
+                  <option value="Female">Female</option>
                   <option value="other">Others</option>
               </select>
-              <Input @type="date" @value={{this.dateOfBirth}} required />
-                <Input type="password" @value={{this.password}} placeholder="Password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required/>
+                </div>
+              <Input @type="date" @value={{this.dateOfBirth}} onchange={{action 'checkDob'}} required/>
+                <p id="date-info" class="info"></p>
+                <Input id="password" @type="password" @value={{this.password}} placeholder="min 8 chars 1 caps 1 small letter  1 number" title="min 8 characters atleast 1 uppercase 1 lowercase  1 number" onchange={{action 'checkPassword'}} required/>
+                <p id="password-info" class="info" ></p>
                 <button type="submit" onclick={{action 'next'}}>Next</button>
+                <p id="register-info"></p>
             </form>
       </div>
      <form class="form security">
