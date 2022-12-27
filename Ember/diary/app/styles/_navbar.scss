@@ -12,6 +12,7 @@
   align-items: center;
   padding:0px 20px;
   justify-content: right;
+  position: relative;
     .disp-name{
       padding: 0px 20px;
       height: 30px;
@@ -21,12 +22,25 @@
       line-height: 30px;
     }
     .disp-pic{
-      border: solid 1px #ddd;
-      background-color: #eee;
+      background: none;
+      border: none;
       border-radius:50%;
     }
     #upload-form{
       display: none;
+    }
+    #reset-profile
+    {
+      display: none;
+      position: absolute;
+    }
+    &:hover{
+      #reset-profile{
+        display: inline;
+        &:hover{
+          color:rgb(237, 72, 72);
+        }
+      }
     }
     img
     {

@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { SHA256 } from 'crypto-js';
 import Route from '@ember/routing/route';
+import {A} from '@ember/array';
 export default class PageComponent extends Component {
   @service('data') data;
   @service router;
@@ -16,6 +17,10 @@ export default class PageComponent extends Component {
     let action = $($(event.target).parent())[0].id;
     console.log(action);
     if (action === 'page-close') {
+      this.audioIds=[];
+      this.videoIds=[];
+      this.imageIds=[]; 
+      this.data.deletes=[];
       setTimeout(() => {
         $('#media').text('');
       }, 500);
@@ -28,6 +33,9 @@ export default class PageComponent extends Component {
       );
       this.data.edit = false;
     }
+  }
+  @action delete(event){
+
   }
   @action
   async fileAction(event) {
@@ -68,20 +76,17 @@ export default class PageComponent extends Component {
         await new Promise((r) => setTimeout(r, 1));
         let date = new Date();
         let tagId =
-          date.toLocaleDateString() +
-          date.toLocaleTimeString() +
-          date.getMilliseconds();
+        date.toLocaleDateString() +
+        date.toLocaleTimeString() +
+        date.getMilliseconds();
         tagId = SHA256(tagId).toString();
         tagId += files[i].name.substring(files[i].name.lastIndexOf('.'));
-        console.log(tagId);
         setAttributes(tagId, 'image', parent);
-
         this.imageIds.push(tagId);
         data = document.createElement('img');
+      
         data.src = URL.createObjectURL(files[i]);
         $(parent).html(data);
-
-        console.log(parent);
         $('#media').append(parent);
       }
     }
@@ -121,6 +126,7 @@ export default class PageComponent extends Component {
         document.getElementById(tagIds[i]).remove();
       }
     }
+   
     function setAttributes(id, className, element) {
       element.setAttribute('id', id);
       element.setAttribute('class', className + ' files');
@@ -149,6 +155,7 @@ export default class PageComponent extends Component {
   @action
   async upload() {
     this.save();
+    
     let videos = $('#video-input')[0].files;
     let audios = $('#audio-input')[0].files;
     let images = $('#image-input')[0].files;
@@ -161,13 +168,13 @@ export default class PageComponent extends Component {
     let type = 'post';
     let url =
       this.data.domain +
-      '/upload?type=media&date=' +
+      '/upload?action=upload&type=media&date=' +
       this.data.today +
       '&userid=' +
       this.data.userId;
     let processData = false;
     let contentType = false;
-    const data = formData;
+    let  data = formData;
     let response = await this.data.ajax(
       type,
       url,
@@ -176,6 +183,21 @@ export default class PageComponent extends Component {
       contentType,
       true
     );
+    if(response.trim()=="success"){
+
+    }
+    url= this.data.domain+'/upload?action=delete&type=media&date='+this.data.today+"&userid="+this.data.userId;
+    data= JSON.stringify(this.data.deletes);
+     response = await this.data.ajax(
+      type,
+      url,
+      data,
+      processData,
+      contentType,
+      true
+    );
+
+
     this.videoIds=[];
     this.imageIds=[];
     this.audioIds=[];
@@ -196,30 +218,27 @@ export default class PageComponent extends Component {
   viewing = false;
   @action
   async save() {
-    console.clear();
-    console.log('executing');
+    let temp;
     let data = $('.page .content');
     let note = $(data).children();
-    console.log(data);
     let id = $(data).attr('id');
-    console.log(id + 'id is');
-    if (id == '') {
+    if (id == '' ||id=='new') {
+      if(id=='new'){
+        temp=true;
+      }
       id = null;
     }
     let title = $(note[0]).html();
     let text = $(note[1]).html();
-    let media = $('#media').html();
-
-    console.log(
-      'title = ' +
-        title +
-        ' content= ' +
-        text +
-        ' id = ' +
-        id +
-        'title = ' +
-        title
-    );
+    let mediaTag = document.getElementById("media");
+    let elements = mediaTag.getElementsByClassName("files");
+    for (let i = 0; i < elements.length; i++) {
+      let deleteTag =document.getElementsByClassName("delete")[0];
+      if(deleteTag){
+        deleteTag.remove();
+      }
+    }
+    let media = $(mediaTag).html();
     let type = 'post',
       url = this.data.domain + '/option?type=save',
       processData = true,
@@ -240,7 +259,37 @@ export default class PageComponent extends Component {
       contentType,
       true
     );
-    if (response == 'saved') {
+    if (response != '[]') {
+      if(id==null&&!temp){
+        let note = JSON.parse(response);
+       this.data.notes=[note,...this.data.notes];
+
+      }
+      else{
+        if(temp){
+          id="new";
+        }
+        this.data.notes.forEach((note,index)=>{
+          console.log(note);
+          console.log(index);
+          if(id==note.id){
+            let newNote = {
+              text,
+              title,
+              media,
+              id,
+              time:note.time,
+              stared:note.stared
+            }
+            
+            console.log(newNote);
+            console.log("excuing replace");
+            this.data.notes=(this.data.notes.replace(index,1,[newNote]));
+           console.log(this.data.notes);
+           return;
+          }
+        })
+      }
       $('.blur').css('z-index', '-1');
       $('.outer').animate(
         {
@@ -253,42 +302,61 @@ export default class PageComponent extends Component {
       }, 500);
 
       this.data.edit = false;
-      if (this.data.page == 'stared') {
-        let type = 'get';
-        let url = this.data.domain + '/search';
-        let data = 'type=stared&userid=' + this.data.userId;
-        let processData = true;
-        let contentType;
-        this.data
-          .ajax(type, url, data, processData, contentType, true)
-          .then((response) => {
-            this.data.notes = JSON.parse(response);
-          });
-        return;
-      }
-      type = 'get';
-      url = this.data.domain + '/search';
-      data =
-        'type=getnotes&userid=' +
-        this.data.userId +
-        '&date=' +
-        this.data.today +
-        '&actiontype=view';
-      processData = true;
-      contentType;
-      this.data
-        .ajax(type, url, data, processData, contentType, true)
-        .then((response) => {
-          let json = JSON.parse(response);
-          this.data.notes = json;
-          console.log(this.data.newNote);
-        });
-      this.router.transitionTo('writer.view', this.data.today);
-      console.log(response);
-      $('.save-status').toggleClass('save-status-toggle');
-      setTimeout(() => {
-        $('.save-status').toggleClass('save-status-toggle');
-      }, 2000);
+     
+   
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (this.data.page == 'stared') {
+//   let type = 'get';
+//   let url = this.data.domain + '/search';
+//   let data = 'type=stared&userid=' + this.data.userId;
+//   let processData = true;
+//   let contentType;
+//   this.data
+//     .ajax(type, url, data, processData, contentType, true)
+//     .then((response) => {
+//       this.data.notes = JSON.parse(response);
+//     });
+//   return;
+// }
+
+
+
+// type = 'get';
+// url = this.data.domain + '/search';
+// data =
+//   'type=getnotes&userid=' +
+//   this.data.userId +
+//   '&date=' +
+//   this.data.today +
+//   '&actiontype=view';
+// processData = true;
+// contentType;
+// this.data
+//   .ajax(type, url, data, processData, contentType, true)
+//   .then((response) => {
+//     let json = JSON.parse(response);
+//     this.data.notes = json;
+//     console.log(this.data.newNote);
+//   });
+// this.router.transitionTo('writer.view', this.data.today);
+// console.log(response);
+// $('.save-status').toggleClass('save-status-toggle');
+// setTimeout(() => {
+//   $('.save-status').toggleClass('save-status-toggle');
+// }, 2000);

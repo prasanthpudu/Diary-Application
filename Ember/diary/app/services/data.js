@@ -19,9 +19,10 @@ export default class DataService extends Service {
   @tracked newNote = false;
   @tracked profilePic;
   @tracked today;
+  @tracked deletes=[];
   host = 'localhost:8080';
-  domain1 = 'http://localhost:8080/Diary';
-  domain = '/Diary';
+  domain = 'http://localhost:8080/Diary';
+  domain1 = '/Diary';
   @action
   ajax(type, url, data, processData, contentType, withCredentials) {
     return $.ajax({

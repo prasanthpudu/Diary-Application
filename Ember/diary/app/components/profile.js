@@ -43,10 +43,26 @@ export default class ProfileComponent extends Component {
       });
   }
   @action
+  deleteProfile(){
+    let type = 'post';
+    let url = this.data.domain + '/upload';
+    let data = 'type=profile&action=delete&userid='+ this.data.userId+"&filename="+this.data.bioData.displayPicture;
+    let processData = true;
+    let contentType;
+    this.data
+      .ajax(type, url, data, processData, contentType, true)
+      .then((response) => {
+  
+        this.data.profilePic =
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+      });
+
+  }
+  @action
   setProfilePic() {
-    if (this.data.bioData.displayPicture) {
+    if (this.data.bioData.displayPicture!='no-profile') {
       this.data.profilePic =
-        this.data.domain + '/assets/profile/' + this.data.userId + '.jpg';
+        this.data.domain + '/assets/profile/' +this.data.bioData.displayPicture ;
       return;
     }
     this.data.profilePic =

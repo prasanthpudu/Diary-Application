@@ -16,7 +16,7 @@
     background: #fff;
     justify-self: center;
     margin: 0px auto;
-    top: 150px;
+    top: 60px;
     left: 0;right:0;
     word-break: break-word;
     padding: 30px;
@@ -27,8 +27,8 @@
         position: relative;
         .close{
             position: absolute;
-            top: -10px;
-            right: -10px;
+            top: -40px;
+            right: -25px;
             display:none;
             cursor: pointer;
             &:hover{
@@ -39,20 +39,16 @@
             }
           
         }
-        &:hover{
-            .close{
-                display: block;
-
-            }
-           
-        }
+        
     }
     .title{
         font-weight: 300;
-        font-size: 24px;
-        color: #000000;
-        outline: none;
-        font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    color: #000000;
+    border: 1px solid #e8e8e8;
+    outline: none;
+    font-family: "Roboto", sans-serif;
+    margin-top: 20px;
         &[contenteditable]:empty:before {
             content: attr(placeholder);
             pointer-events: none;
@@ -66,7 +62,9 @@
         font-size: 14px;
         font-size: 18px;
         font-weight: 400;
+        min-height: 200px;
         outline: none;
+        border: 1px solid #e8e8e8;
         margin-top: 30px;
         color: #000000;
         &[contenteditable]:empty:before {
@@ -80,7 +78,8 @@
     }
     .media{
         width: 100%;
-        height: 200px;
+        min-height: 111px;
+        height:max-content;
         margin-top: 30px;
         overflow-y: scroll;
         border: 1px solid #000;
@@ -95,11 +94,17 @@
             video,img{
                 height: 100%;
                 width: 100%;
+                position: relative;
             }
             >span{
                 font-size: 100px;
             }
         }
+        .image,.video,.audio{
+            position: relative;
+           
+        }
+        
         &::-webkit-scrollbar{
             width: 3px;
             background: rgb(179, 178, 178);
@@ -107,6 +112,7 @@
         &::-webkit-scrollbar-track {
             background: rgb(227, 225, 225);
         }
+        
     } 
     .upload-action{
         width: 100%;
@@ -131,7 +137,32 @@
             }
         }
     }
+    #save{
+        padding: 10px 20px;
+    background: #93C572;
+    border-radius: 10%;
+    border: solid 1px #50C8B4;
+    }
     .media-content{
         display: flex;
     }
+    &:hover{
+        .close{
+            display: block;
+
+        }
+       
+    }
+}
+
+
+.delete{
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    bottom: 10px;
+    right: 10px;
+}
+.hide-delete{
+    display: none;
 }

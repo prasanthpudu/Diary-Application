@@ -48,7 +48,7 @@ export default class ForgotpasswordController extends Controller {
   @action
   checkPassword() {
     let string = this.password;
-    if (string.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')) {
+    if (string.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$.])[a-zA-Z\\d@$.]{8,}$')) {
       $('#password-info').text('');
       this.validPassword = true;
     } else {

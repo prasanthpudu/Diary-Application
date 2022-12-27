@@ -23,7 +23,7 @@
                 </div>
               <Input @type="date" @value={{this.dateOfBirth}} onchange={{action 'checkDob'}} required/>
                 <p id="date-info" class="info"></p>
-                <Input id="password" @type="password" @value={{this.password}} placeholder="min 8 chars 1 caps 1 small letter  1 number" title="min 8 characters atleast 1 uppercase 1 lowercase  1 number" onchange={{action 'checkPassword'}} required/>
+                <Input id="password" @type="password" @value={{this.password}} placeholder="Password : hover to show constrains" title="min 8 characters atleast 1 uppercase 1 lowercase  1 number contains any one 1  of ($@.)" onchange={{action 'checkPassword'}} required/>
                 <p id="password-info" class="info" ></p>
                 <button type="submit" onclick={{action 'next'}}>Next</button>
                 <p id="register-info"></p>

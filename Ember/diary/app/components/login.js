@@ -39,7 +39,17 @@ export default class LoginComponent extends Component {
         // $(".password-form").slideDown();
       }
       if (response == 'notfound') {
-        this.router.transitionTo('register');
+        if(userId.match("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
+          this.router.transitionTo('register');
+        }
+        else{
+          await new Promise((r) => setTimeout(r, 100));
+          $('#login-info').text('invalid email address');
+          setTimeout(()=>{
+          $('#login-info').text('');
+          },3000)
+        }
+       
       }
     }
     if (action == 'login') {

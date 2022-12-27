@@ -7,49 +7,7 @@ export default class NoteComponent extends Component {
   @service router;
   viewing = false;
 
-  @action
-  getData(event) {
-    let data = event.target;
-    let note = $($(data).parent().children()[0]).children();
-    let id = $(data).parent().attr('id');
-    if (id == '') {
-      id = null;
-    }
-    let title = $(note[0]).html();
-    let text = $(note[1]).html();
-    console.clear();
-    console.log('title = ' + title + ' content= ' + text + ' id = ' + id);
-    let json = {
-      userId: this.data.userId,
-      title,
-      text,
-      id,
-    };
-    $.ajax({
-      type: 'post',
-      url: 'http://' + this.data.host + '/Diary/edit',
-      data: JSON.stringify(json),
-      success: (response) => {
-        console.log(response);
-        $('.save-status').toggleClass('save-status-toggle');
-        setTimeout(() => {
-          $('.save-status').toggleClass('save-status-toggle');
-        }, 2000);
-      },
-      statusCode: {
-        404: () => {
-          console.log('not found');
-          this.router.transitionTo('register');
-        },
-        400: () => {
-          $('#login-info').text('incorrect username or password');
-          setTimeout(() => {
-            $('#login-info').text('');
-          }, 3000);
-        },
-      },
-    });
-  }
+ 
 
   @action
   async option(event) {
@@ -97,30 +55,23 @@ export default class NoteComponent extends Component {
         contentType,
         true
       );
+      if(response.trim()=="success") {
 
-      let date = this.args.date.substring(0, 10);
-      type = 'get';
-      url = this.data.domain + '/search';
-      data =
-        'type=getnotes&userid=' +
-        this.data.userId +
-        '&date=' +
-        date +
-        '&actiontype=view';
+      this.data.notes.forEach((note,index)=>{
+        console.log(note);
+        console.log(index);
+        if(id==note.id){
+        
+          console.log("excuing replace");
+          this.data.notes=(this.data.notes.removeAt(index));
+         console.log(this.data.notes);
+         return;
+        }
 
-      this.data
-        .ajax(type, url, data, processData, contentType, true)
-        .then((response) => {
-          let json = JSON.parse(response);
-          this.data.notes = json;
-        });
-      console.log(response);
-      this.router.transitionTo('writer.viewer', date);
-      // $('.save-status').toggleClass('save-status-toggle');
-      // setTimeout(() => {
-      //   $('.save-status').toggleClass('save-status-toggle');
-      // }, 2000);
+      })
+      
     }
+  }
   }
   @action
   async didAction(event) {
@@ -129,9 +80,16 @@ export default class NoteComponent extends Component {
     console.log(action);
     if (action === 'option-edit') {
       this.data.edit = true;
+      $('.delete').ready(()=>{
+        $('.delete').removeClass("hide-delete");
+      })
+      
     }
     if (action === 'option-view') {
       this.data.edit = false;
+      $('.delete').ready(()=>{
+        $('.delete').addClass("hide-delete");
+      })
     }
     $('.blur').css('z-index', '3');
     $('.outer').animate(
@@ -146,28 +104,42 @@ export default class NoteComponent extends Component {
     this.data.id = this.args.id;
     this.data.noteDate = this.args.date;
     let media = this.args.media;
-    console.clear();
     let datas = $(this.setSrc(media));
     let element = document.createElement('p');
     for (let i = 0; i < datas.length; i++) {
       console.log($(datas[i])[0]);
       element.append($(datas[i])[0]);
     }
-    $('#media').html(element.innerHTML);
-    await new Promise((r) => setTimeout(r, 100));
-    this.addEvents();
+
+    let afterEvents=this.addEvents(element);
+    $('#media').html(afterEvents);
+   
+   
+
   }
-  @action addEvents() {
-    console.log('adding evends lisnts');
-    let elements = document.getElementsByClassName('files');
-    console.log(elements.length);
+
+  @action addEvents(target){
+    let elements = target.getElementsByClassName('files');
+    let date = this.data.noteDate.substring(0,10);
     for (let i = 0; i < elements.length; i++) {
+
       let element = elements[i];
       console.log(element);
+     //let hasIcon = element.lastChild.className=='delete'?true:false;
+      if(date==this.data.today){
+        console.log("dele eveve");
+        var deleteIcon = document.createElement('button');
+        deleteIcon.setAttribute('class','delete');
+        deleteIcon.innerHTML="<span class=\"material-symbols-outlined\">delete</span>";
+        addDeleteListener(deleteIcon,$(element)[0].id,this.data.deletes);
+       element.appendChild(deleteIcon);
+      }
       element.addEventListener('click', (event) => {
+
+
+       
         $('.media-viewer').show();
         let tag = $(event.target).parent()[0].innerHTML;
-        console.log(tag);
         let tagName = $(tag).prop('tagName');
         console.log(tagName);
         tag = $(tag);
@@ -186,10 +158,30 @@ export default class NoteComponent extends Component {
         $('.media-content').html(tag);
       });
     }
+
+
+    function addDeleteListener(element,id,data){
+      element.addEventListener("click", (e)=>{
+        let classes = document.getElementById(id).className;
+        let fileType=classes.substring(0,classes.indexOf(" "));
+        let object= {
+          type:fileType,
+          fileName:id
+        }
+        data.push(object);
+        $(element).parent().remove();
+        e.stopPropagation();
+      });
+    }
+
+    return elements;
   }
+
   @action
   setSrc(tags) {
     let date = this.data.noteDate.substring(0, 10);
+
+    console.log("seting sr ---------------- from note");
     let elements = $(tags);
     console.log(elements);
     for (let i = 0; i < elements.length; i++) {
@@ -235,3 +227,26 @@ export default class NoteComponent extends Component {
     return elements;
   }
 }
+
+// let date = this.args.date.substring(0, 10);
+      // type = 'get';
+      // url = this.data.domain + '/search';
+      // data =
+      //   'type=getnotes&userid=' +
+      //   this.data.userId +
+      //   '&date=' +
+      //   date +
+      //   '&actiontype=view';
+
+      // this.data
+      //   .ajax(type, url, data, processData, contentType, true)
+      //   .then((response) => {
+      //     let json = JSON.parse(response);
+      //     this.data.notes = json;
+      //   });
+      // console.log(response);
+      // this.router.transitionTo('writer.viewer', date);
+      // $('.save-status').toggleClass('save-status-toggle');
+      // setTimeout(() => {
+      //   $('.save-status').toggleClass('save-status-toggle');
+      // }, 2000);

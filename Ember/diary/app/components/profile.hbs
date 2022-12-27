@@ -1,23 +1,28 @@
 <div class="profile d-flex">
-            <meta http-equiv="cache-control" content="max-age=0" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta http-equiv="expires" content="0" />
-<meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
     {{this.getBioData}}
 
     {{#unless @edit}}
     <div class="disp-name">
-       {{this.data.bioData.name}}
+        {{this.data.bioData.name}}
     </div>
     {{/unless}}
     <div class="disp-pic">
-    <div class="picture">
-         <label for="file"><img id="profile-pic" src={{this.data.profilePic}}></label>
-          {{#if @edit}}
-                <form id="upload-form" class="upload-box" action="upload" method="POST" enctype="multipart/form-data">
-                    <input type="file" id="file" name="file1" accept="image/jpeg" onchange={{action 'didAction'}}/>
-                </form>
-          {{/if}}
-    </div>
+        <div class="picture">
+            <label for="file"><img id="profile-pic" src={{this.data.profilePic}}></label>
+            {{#if @edit}}
+            <form id="upload-form" class="upload-box" action="upload" method="POST" enctype="multipart/form-data">
+                <input type="file" id="file" name="file1" accept="image/jpeg" onchange={{action 'didAction' }} />
+            </form>
+            <button id="reset-profile" onclick={{action 'deleteProfile'}}>
+                <span class="material-symbols-outlined">
+                    delete_forever
+                </span>
+            </button>
+            {{/if}}
+        </div>
     </div>
 </div>

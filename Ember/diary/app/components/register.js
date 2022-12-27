@@ -122,7 +122,7 @@ export default class RegisterComponent extends Component {
   @action
   checkPassword() {
     let string = this.password;
-    if (string.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')) {
+    if (string.match('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$.])[a-zA-Z\\d@$.]{8,}$')) {
       $('#password-info').text('');
       this.validPassword = true;
     } else {

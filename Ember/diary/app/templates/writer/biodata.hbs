@@ -19,7 +19,7 @@ logout
         {{#if this.data.cropper}}
         <Cropper/>
         {{/if}}
-        <h1>User Id   :<span>{{this.data.userId}}</span></h1>
+        <h1 id="user-id">User Id   :<span>{{this.data.userId}}</span></h1>
        <div class="input"><label for="username">Username</label> <Input @value={{this.data.bioData.name}} id="username" ></Input></div>
          <div class="input"><label for="dateofbirth">Date dateOfBirth</label> <Input @type="date" @value={{this.data.bioData.dateofbirth}} id="dateofbirth" ></Input></div>
          <div class="input">
